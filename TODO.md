@@ -1,0 +1,46 @@
+# TODO
+
+- Create Model & Relationship ✅ Day 1
+  - User
+    - add role enum
+  - Subject
+    - name
+  - Class
+    - name
+  - ClassSubject
+    - id class
+    - classname (normalization)
+    - id subject
+    - subjectname (normalization)
+  - Schedule
+    - classsubject id
+    - pj user id
+    - academic year
+    - day enum
+    - shift enum
+  - Attendance Data
+    - schedule id
+    - assistant id user
+    - student id user
+- Integrate Admin Template
+  - Migrate Assets, Public
+  - Migrate Views, Layouts
+- Make multi auth for admin/assistant/student
+  - Customize Auth Controller
+  - Customize Routes
+- Make CRUD Logic
+  - User
+    - Admin
+    - Assistant
+    - Student
+  - Class
+    - Class add student menu
+  - Subject
+    - Subject add class menu
+  - Schedule
+  - Attandance Data
+- Make Attendance Logic
+  - assistant generate unique key hash (assistant name, class name, subject name, and schedule day and shift, random number)
+  - student scans, unique key refreshed
+- Make FE (QR)
+- Integrate FE to BE
