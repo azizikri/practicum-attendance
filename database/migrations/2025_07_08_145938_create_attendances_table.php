@@ -15,8 +15,8 @@ return new class extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Schedule::class)->constrained()->cascadeOnDelete();
-            $table->foreignId('assistant_id')->constrained('users')->nullOnDelete();
-            $table->foreignId('student_id')->constrained('users')->nullOnDelete();
+            $table->foreignId('assistant_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('student_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('assistant_name');
             $table->string('student_name');
             $table->timestamps();

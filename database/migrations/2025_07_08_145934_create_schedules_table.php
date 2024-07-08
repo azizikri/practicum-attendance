@@ -16,8 +16,8 @@ return new class extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(ClassSubject::class)->constrained()->cascadeOnDelete();
-            $table->foreignId('pj_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('class_subject_id')->constrained('class_subjects')->cascadeOnDelete();
+            $table->foreignId('pj_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('class_subject_name');
             $table->string('pj_name');
             $table->smallInteger('academic_year');
