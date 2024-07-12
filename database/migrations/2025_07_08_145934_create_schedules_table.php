@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('class_subject_name');
             $table->string('pj_name');
             $table->smallInteger('academic_year');
+            $table->smallInteger('session')->default(1);
             $table->enum('day', ScheduleDay::getValues());
             $table->enum('shift', ScheduleShift::getValues());
             $table->timestamps();

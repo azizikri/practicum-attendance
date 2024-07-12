@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(Schedule::class)->constrained()->cascadeOnDelete();
             $table->foreignId('assistant_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('student_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->smallInteger('session');
             $table->string('assistant_name');
             $table->string('student_name');
             $table->timestamps();

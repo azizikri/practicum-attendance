@@ -15,6 +15,7 @@
   - Schedule
     - classsubject id
     - pj user id
+    - session
     - academic year
     - day enum
     - shift enum
@@ -22,10 +23,13 @@
     - schedule id
     - assistant id user
     - student id user
-- Integrate Admin Template
+    - session
+    - status
+- Integrate Admin Template ✅
   - Migrate Assets, Public
   - Migrate Views, Layouts
 - Make multi auth for admin/assistant/student
+  - make policies
   - Customize Auth Controller
   - Customize Routes
 - Make CRUD Logic
