@@ -2,7 +2,6 @@
 
 use App\Enums\ScheduleDay;
 use App\Enums\ScheduleShift;
-use App\Models\ClassSubject;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;

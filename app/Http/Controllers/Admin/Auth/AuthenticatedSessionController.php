@@ -1,23 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Admin\Auth;
 
+use App\Enums\UserRole;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Admin\Auth\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {
-    protected $redirectTo = 'dashboard';
+    protected $redirectTo = '/admin';
+
     /**
      * Display the login view.
      */
     public function create() : View
     {
-        return view('auth.login');
+        return view('admin.auth.login');
     }
 
     /**
@@ -25,6 +27,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request) : RedirectResponse
     {
+
         $request->authenticate();
 
         $request->session()->regenerate();

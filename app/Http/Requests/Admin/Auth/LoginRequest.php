@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Admin\Auth;
 
 use App\Enums\UserRole;
 use Illuminate\Support\Str;
@@ -50,7 +50,7 @@ class LoginRequest extends FormRequest
             ]);
         }
 
-        if (Auth::user()->role !== UserRole::Student) {
+        if (! in_array(Auth::user()->role, [UserRole::Admin, UserRole::Assistant])) {
             Auth::logout();
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),

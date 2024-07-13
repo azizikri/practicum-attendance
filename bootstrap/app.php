@@ -8,11 +8,10 @@ use Illuminate\Foundation\Configuration\Middleware;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         using: function () {
-            Route::middleware('web')
-                ->name('client.')
+            Route::middleware(['web'])
                 ->group(base_path('routes/web.php'));
 
-            Route::middleware('web')
+            Route::middleware(['web'])
                 ->name('admin.')
                 ->prefix('admin')
                 ->group(base_path('routes/admin.php'));
@@ -22,7 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'user-access' => \App\Http\Middleware\UserAccess::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

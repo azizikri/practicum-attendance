@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-12 col-xl-12 stretch-card">
             <div class="row flex-grow-1">
                 <div class="col-md-4 grid-margin stretch-card">
@@ -23,7 +23,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-12 col-xl-5">
-                                    {{-- <h3 class="mb-2">{{ $userCount }}</h3> --}}
+                                    <h3 class="mb-2">{{ $userCount }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -38,7 +38,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-12 col-xl-5">
-                                    {{-- <h3 class="mb-2">{{ $productCount }}</h3> --}}
+                                    <h3 class="mb-2">{{ $productCount }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-12 col-xl-5">
-                                    {{-- <h3 class="mb-2">{{ $serviceCount }}</h3> --}}
+                                    <h3 class="mb-2">{{ $serviceCount }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -68,7 +68,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-12 col-xl-5">
-                                    {{-- <h3 class="mb-2">{{ $totalOrderCount }}</h3> --}}
+                                    <h3 class="mb-2">{{ $totalOrderCount }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-12 col-xl-5">
-                                    {{-- <h3 class="mb-2">{{ $orderCompletedCount }}</h3> --}}
+                                    <h3 class="mb-2">{{ $orderCompletedCount }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -92,9 +92,9 @@
 
             </div>
         </div>
-    </div> <!-- row -->
+    </div> -- }} <!-- row -->
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
@@ -209,7 +209,7 @@
                 </div>
             </div>
         </div>
-    </div> <!-- row -->
+    </div> <!-- row --> --}}
 @endsection
 
 @push('plugin-scripts')
