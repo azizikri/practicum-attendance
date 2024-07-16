@@ -33,10 +33,12 @@
   - Customize Auth Controller
   - Customize Routes
 - Make CRUD Logic
-  - User
+  - User done
     - Admin
     - Assistant
     - Student
+      - import
+      - add class
   - Class
     - Class add student menu
   - Subject

@@ -18,10 +18,17 @@
                     <span class="link-title">Dasbor</span>
                 </a>
             </li>
-            <li class="nav-item nav-category">Pengguna</li>
             @can('isAdmin', auth()->user())
-                <li
-                    class="nav-item {{ active_class(['admin.admins.index', 'admin.admins.create', 'admin.admins.edit']) }}">
+                <li class="nav-item nav-category">Manajemen</li>
+                <li class="nav-item {{ active_class(['admin.classes.index', 'admin.classes.create', 'admin.classes.edit']) }}">
+                    <a href="{{ route('admin.classes.index') }}" class="nav-link">
+                        <i class="link-icon" data-feather="book"></i>
+                        <span class="link-title">Kelas</span>
+                    </a>
+                </li>
+
+                <li class="nav-item nav-category">Pengguna</li>
+                <li class="nav-item {{ active_class(['admin.admins.index', 'admin.admins.create', 'admin.admins.edit']) }}">
                     <a href="{{ route('admin.admins.index') }}" class="nav-link">
                         <i class="link-icon" data-feather="shield"></i>
                         <span class="link-title">Admin</span>

@@ -20,20 +20,6 @@ class UserRequest extends FormRequest
         return auth()->check() && Gate::authorize('isAdmin', auth()->user());
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
-    public function rules()
-    {
-        return [
-            'name' => [Rule::when($this->isMethod('POST'), 'required', 'sometimes'), 'string', 'max:255'],
-            'email' => [Rule::when($this->isMethod('POST'), 'required', 'sometimes'), 'required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user)],
-            'password' => ['nullable', 'confirmed', Password::defaults()],
-        ];
-    }
-
     protected function prepareForValidation()
     {
         if ($this->isMethod('patch')) {
@@ -46,6 +32,20 @@ class UserRequest extends FormRequest
             }
 
         }
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, mixed>
+     */
+    public function rules()
+    {
+        return [
+            'name' => [$this->isMethod('POST') ? 'required' : 'sometimes', , 'string', 'max:255'],
+            'email' => [$this->isMethod('POST') ? 'required' : 'sometimes', , 'required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user)],
+            'password' => ['nullable', 'confirmed', Password::defaults()],
+        ];
     }
 }
 
