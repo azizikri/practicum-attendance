@@ -44,23 +44,22 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $admin)
+    public function edit(User $user)
     {
         return view('admin.admins.edit', [
-            'admin' => $admin
+            'user' => $user
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserRequest $request, User $admin)
+    public function update(UserRequest $request, User $user)
     {
         $data = $request->validated();
-        $data['password'] = $request->password != null ? Hash::make($request->password) : $admin->password;
-        $data['role'] = UserRole::Admin;
+        $data['password'] = $request->password != null ? Hash::make($request->password) : $user->password;
 
-        $admin->update($data);
+        $user->update($data);
 
         return redirect()->route('admin.admins.index')->with('success', 'Admin berhasil diupdate!');
     }
@@ -68,14 +67,13 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $admin)
+    public function destroy(User $user)
     {
-        if (! $this->checkAdmin())
-        {
+        if (! $this->checkAdmin()) {
             return back()->with('error', 'Admin hanya satu! Tidak boleh dihapus!');
         }
 
-        $admin->delete();
+        $user->delete();
 
         return redirect()->route('admin.admins.index')->with('success', 'Admin berhasil dihapus');
     }

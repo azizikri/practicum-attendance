@@ -29,7 +29,7 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => [Rule::when($this->isMethod('POST'), 'required', 'sometimes'), 'string', 'max:255'],
-            'email' => [Rule::when($this->isMethod('POST'), 'required', 'sometimes'), 'required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->admin)],
+            'email' => [Rule::when($this->isMethod('POST'), 'required', 'sometimes'), 'required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user)],
             'password' => ['nullable', 'confirmed', Password::defaults()],
         ];
     }

@@ -19,19 +19,26 @@
                 </a>
             </li>
             <li class="nav-item nav-category">Pengguna</li>
-            <li
-                class="nav-item {{ active_class(['admin.users.index', 'admin.users.create', 'admin.users.edit', 'admin.users.show']) }}">
-                <a href="{{ route('admin.users.index') }}" class="nav-link">
-                    <i class="link-icon" data-feather="user"></i>
-                    <span class="link-title">User</span>
-                </a>
-            </li>
             @can('isAdmin', auth()->user())
                 <li
                     class="nav-item {{ active_class(['admin.admins.index', 'admin.admins.create', 'admin.admins.edit']) }}">
                     <a href="{{ route('admin.admins.index') }}" class="nav-link">
                         <i class="link-icon" data-feather="shield"></i>
                         <span class="link-title">Admin</span>
+                    </a>
+                </li>
+                <li
+                    class="nav-item {{ active_class(['admin.assistants.index', 'admin.assistants.create', 'admin.assistants.edit']) }}">
+                    <a href="{{ route('admin.assistants.index') }}" class="nav-link">
+                        <i class="link-icon" data-feather="user"></i>
+                        <span class="link-title">Asisten</span>
+                    </a>
+                </li>
+                <li
+                    class="nav-item {{ active_class(['admin.students.index', 'admin.students.create', 'admin.students.edit']) }}">
+                    <a href="{{ route('admin.students.index') }}" class="nav-link">
+                        <i class="link-icon" data-feather="user"></i>
+                        <span class="link-title">Praktikan</span>
                     </a>
                 </li>
             @endcan

@@ -3,7 +3,7 @@
 @section('content')
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('admin.admins.index') }}">Admin</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.assistants.index') }}">Asisten</a></li>
             <li class="breadcrumb-item active" aria-current="page">Input</li>
         </ol>
     </nav>
@@ -13,8 +13,8 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="my-3 card-title">Edit Admin</h6>
-                    <form class="forms-sample" action="{{ route('admin.admins.update', $user) }}" method="POST">
+                    <h6 class="my-3 card-title">Edit Asisten</h6>
+                    <form class="forms-sample" action="{{ route('admin.assistants.update', $user) }}" method="POST">
                         @csrf
                         @method('PATCH')
 
@@ -44,7 +44,7 @@
 
 
                         <button type="submit" class="btn btn-primary me-2">Submit</button>
-                        <a href="{{ route('admin.admins.index') }}" class="btn btn-secondary">Cancel</a>
+                        <a href="{{ route('admin.assistants.index') }}" class="btn btn-secondary">Cancel</a>
                     </form>
 
                 </div>
