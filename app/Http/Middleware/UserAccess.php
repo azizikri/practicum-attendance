@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Enums\UserRole;
 use Illuminate\Http\Request;
 
 class UserAccess
@@ -18,6 +19,6 @@ class UserAccess
             return $next($request);
         }
 
-        return abort(403, 'Unauthorized action.');
+        return abort(404);
     }
 }

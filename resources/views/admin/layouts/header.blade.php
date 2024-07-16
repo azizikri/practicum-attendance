@@ -7,22 +7,17 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ auth()->user('admin')->name }}
+                    {{ auth()->user()->name }}
                 </a>
                 <div class="p-0 dropdown-menu" aria-labelledby="profileDropdown">
                     <div class="px-5 py-3 d-flex flex-column align-items-center border-bottom">
                         <div class="text-center">
-                            <p class="tx-16 fw-bolder">{{ auth()->user('admin')->name }}</p>
-                            <p class="tx-12 text-muted">{{ auth()->user('admin')->email }}</p>
+                            <p class="tx-16 fw-bolder">{{ auth()->user()->name }}</p>
+                            <small>{{ auth()->user()->role }}</small>
+                            <p class="tx-12 text-muted">{{ auth()->user()->email }}</p>
                         </div>
                     </div>
                     <ul class="p-1 list-unstyled">
-                        <li class="py-2 dropdown-item">
-                            <a href="{{ route('admin.profile.edit') }}" class="text-body ms-0">
-                                <i class="me-2 icon-md" data-feather="user"></i>
-                                <span>Profile</span>
-                            </a>
-                        </li>
                         <li class="py-2 dropdown-item">
                             <form id="logout-form" action="{{ route('admin.logout') }}" method="POST">
                                 @csrf

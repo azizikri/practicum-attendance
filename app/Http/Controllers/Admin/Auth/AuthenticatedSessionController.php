@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
-use App\Enums\UserRole;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -12,7 +11,7 @@ use App\Http\Requests\Admin\Auth\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {
-    protected $redirectTo = '/admin';
+    protected $redirectTo = 'admin.dashboard';
 
     /**
      * Display the login view.

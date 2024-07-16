@@ -19,7 +19,7 @@ License: For each use you must have a valid license purchased only from above li
     <meta name="keywords"
         content="nobleui, bootstrap, bootstrap 5, bootstrap5, admin, dashboard, template, responsive, css, sass, html, laravel, theme, front-end, ui kit, web">
 
-    <title>Practicum Attendance - Admin</title>
+    <title>Practicum Attendance</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,14 +28,12 @@ License: For each use you must have a valid license purchased only from above li
     <!-- End fonts -->
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="_token" content="{{ csrf_token() }}">
 
-
-    <link rel="shortcut icon" href="{{ asset('/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('admin-assets/assets/images/favicon.ico') }}">
 
     <!-- plugin css -->
     <link href="{{ asset('admin-assets/assets/fonts/feather-font/css/iconfont.css') }}" rel="stylesheet" />
-    <link href="{{ asset('admin-assets/assets/plugins/flag-icon-css/css/flag-icon.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('admin-assets/assets/plugins/perfect-scrollbar/perfect-scrollbar.css') }}" rel="stylesheet" />
     <!-- end plugin css -->
 
@@ -57,6 +55,28 @@ License: For each use you must have a valid license purchased only from above li
         <div class="page-wrapper">
             @include('admin.layouts.header')
             <div class="page-content">
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
                 @yield('content')
             </div>
             @include('admin.layouts.footer')

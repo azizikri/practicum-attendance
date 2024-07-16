@@ -26,7 +26,7 @@
                     <span class="link-title">User</span>
                 </a>
             </li>
-            @can('isSuperAdmin', auth('admin')->user())
+            @can('isAdmin', auth()->user())
                 <li
                     class="nav-item {{ active_class(['admin.admins.index', 'admin.admins.create', 'admin.admins.edit']) }}">
                     <a href="{{ route('admin.admins.index') }}" class="nav-link">
