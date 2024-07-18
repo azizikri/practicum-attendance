@@ -1,5 +1,10 @@
 @extends('admin.layouts.master')
 
+
+@push('plugin-styles')
+    <link href="{{ asset('assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
+@endpush
+
 @section('content')
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
@@ -31,6 +36,19 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="tandem" class="form-label">Tandem</label>
+                            <select class="form-control select-tandem" id="tandem" name="tandem_id">
+                                <option selected disabled hidden>Pilih Tandem</option>
+                                @forelse ($tandems as $tandem)
+                                    <option @selected($tandem->id == $tandemVote->tandem->id || $tandem->id == old('tandem')) value="{{ $tandem->id }}">
+                                        {{ $tandem->name }}</option>
+                                @empty
+                                    <option disabled>No data!</option>
+                                @endforelse
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input name="password" type="password" class="form-control" id="password" autocomplete="off"
                                 placeholder="Password">
@@ -52,3 +70,11 @@
         </div>
     </div>
 @endsection
+
+@push('custom-scripts')
+    <script>
+        $(document).ready(function() {
+            $('.select-tandem').select2();
+        });
+    </script>
+@endpush

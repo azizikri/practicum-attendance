@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Enums\UserRole;
+use App\Models\ClassModel;
 use App\DataTables\UsersDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -47,6 +48,7 @@ class StudentController extends Controller
     public function edit(User $user)
     {
         return view('admin.students.edit', [
+            'classes' => ClassModel::get(['id', 'name']),
             'user' => $user
         ]);
     }

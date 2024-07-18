@@ -15,7 +15,7 @@
     <h4 id="default">Basic example</h4>
     <p class="mb-3">Below is a <em>static</em> modal example (meaning its <code>position</code> and <code>display</code> have been overridden).</p>
     <div class="example">
-      <div class="modal static" tabindex="-1">
+      <div class="static modal" tabindex="-1">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -53,7 +53,7 @@
 </div></script></code></pre>
       <button type="button" class="btn btn-clipboard" data-clipboard-target="#Default">copy</button>
     </figure>
-    
+
     <hr>
 
     <h4 id="demo">Live demo</h4>
@@ -107,7 +107,7 @@
 </div></script></code></pre>
       <button type="button" class="btn btn-clipboard" data-clipboard-target="#Demo">copy</button>
     </figure>
-    
+
     <hr>
 
     <h4 id="scrolling">Scrolling long content</h4>
@@ -225,16 +225,16 @@
         </div>
       </div>
     </div>
-    
+
     <hr>
 
     <h4 id="varying">Varying modal content</h4>
     <p class="mb-3">Have a bunch of buttons that all trigger the same modal with slightly different contents? Use <code >event.relatedTarget</code> and <a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes">HTML <code >data-bs-*</code> attributes</a> (possibly <a href="https://api.jquery.com/data/">via jQuery</a>) to vary the contents of the modal depending on which button was clicked.</p>
     <div class="example">
-      <button type="button" class="btn btn-primary mb-1 mb-md-0" data-bs-toggle="modal" data-bs-target="#varyingModal" data-bs-whatever="@mdo">Open modal for @mdo</button>
-      <button type="button" class="btn btn-primary mb-1 mb-md-0" data-bs-toggle="modal" data-bs-target="#varyingModal" data-bs-whatever="@fat">Open modal for @fat</button>
-      <button type="button" class="btn btn-primary mb-1 mb-md-0" data-bs-toggle="modal" data-bs-target="#varyingModal" data-bs-whatever="@getbootstrap">Open modal for @getbootstrap</button>
-      
+      <button type="button" class="mb-1 btn btn-primary mb-md-0" data-bs-toggle="modal" data-bs-target="#varyingModal" data-bs-whatever="@mdo">Open modal for @mdo</button>
+      <button type="button" class="mb-1 btn btn-primary mb-md-0" data-bs-toggle="modal" data-bs-target="#varyingModal" data-bs-whatever="@fat">Open modal for @fat</button>
+      <button type="button" class="mb-1 btn btn-primary mb-md-0" data-bs-toggle="modal" data-bs-target="#varyingModal" data-bs-whatever="@getbootstrap">Open modal for @getbootstrap</button>
+
       <div class="modal fade" id="varyingModal" tabindex="-1" aria-labelledby="varyingModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -314,7 +314,7 @@ varyingModal.addEventListener('show.bs.modal', function (event) {
 })</script></code></pre>
       <button type="button" class="btn btn-clipboard" data-clipboard-target="#varyingContentScript">copy</button>
     </figure>
-    
+
     <hr>
 
     <h4 id="sizing">Optional sizes</h4>
@@ -325,7 +325,7 @@ varyingModal.addEventListener('show.bs.modal', function (event) {
       <div class="modal fade bd-example-modal-xl" tabindex="-1" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
           <div class="modal-content">
-      
+
             <div class="modal-header">
               <h5 class="modal-title h4" id="myExtraLargeModalLabel">Extra large modal</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
@@ -342,7 +342,7 @@ varyingModal.addEventListener('show.bs.modal', function (event) {
       <div class="modal fade bd-example-modal-lg" tabindex="-1" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
-      
+
             <div class="modal-header">
               <h5 class="modal-title h4" id="myLargeModalLabel">Large modal</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
@@ -359,7 +359,7 @@ varyingModal.addEventListener('show.bs.modal', function (event) {
       <div class="modal fade bd-example-modal-sm" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
-      
+
             <div class="modal-header">
               <h5 class="modal-title h4" id="mySmallModalLabel">Small modal</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
@@ -406,7 +406,7 @@ varyingModal.addEventListener('show.bs.modal', function (event) {
 </div></script></code></pre>
       <button type="button" class="btn btn-clipboard" data-clipboard-target="#Sizing">copy</button>
     </figure>
-    
+
   </div>
   <div class="col-xl-2 content-nav-wrapper">
     <ul class="nav content-nav d-flex flex-column">

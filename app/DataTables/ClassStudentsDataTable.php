@@ -2,7 +2,10 @@
 
 namespace App\DataTables;
 
+use App\Models\User;
+use App\Enums\UserRole;
 use App\Models\ClassModel;
+use App\Models\ClassStudent;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\EloquentDataTable;
@@ -12,8 +15,10 @@ use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
-class ClassesDataTable extends DataTable
+
+class ClassStudentsDataTable extends DataTable
 {
+    protected string $dataTableVariable = 'dataTableClassStudents';
     /**
      * Build DataTable class.
      *
@@ -30,24 +35,11 @@ class ClassesDataTable extends DataTable
                 $query->where('name', 'like', ["%{$keyword}%"]);
             })
 
-
             ->addColumn('action', function ($row) {
                 return
                     '
                     <div class="d-flex align-items-center">
-                        <a href="' . route('admin.classes.edit', $row->id) . '" class="text-info">
-                            <button type="button" class="btn btn-sm btn-warning btn-icon-text">
-                                Edit
-                            </button>
-                        </a>
-
-                        <a href="' . route('admin.classes.show', $row->id) . '" class="mx-3 text-info">
-                            <button type="button" class="btn btn-sm btn-info btn-icon-text">
-                                Details
-                            </button>
-                        </a>
-
-                        <form action="' . route('admin.classes.destroy', $row->id) . '" method="post">
+                        <form action="' . route('admin.classes.students.delete', $row->id) . '" method="post">
                             <input type="hidden" name="_token" value="' . csrf_token() . '">
                             <input type="hidden" name="_method" value="delete">
                             <button type="submit" onclick="return confirm(\'Apakah Anda Yakin?\')" class="mr-2 btn btn-sm btn-danger btn-icon-text">
@@ -67,9 +59,9 @@ class ClassesDataTable extends DataTable
      * @param \App\Models\ClassModel $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(ClassModel $model) : QueryBuilder
+    public function query(User $model) : QueryBuilder
     {
-        return $model->newQuery()->orderBy('name');
+        return $model->newQuery()->whereRole(UserRole::Student)->where('class_id', $this->class->id)->orderBy('name');
     }
 
     /**
@@ -80,7 +72,7 @@ class ClassesDataTable extends DataTable
     public function html() : HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('class-table')
+            ->setTableId('class-student-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
@@ -116,6 +108,6 @@ class ClassesDataTable extends DataTable
      */
     protected function filename() : string
     {
-        return 'Classes_' . date('YmdHis');
+        return 'Classes_Students' . date('YmdHis');
     }
 }

@@ -97,7 +97,9 @@ License: For each use you must have a valid license purchased only from above li
     <script src="{{ asset('admin-assets/assets/js/template.js') }}"></script>
     <!-- end common js -->
 
+    <!-- start custom scripts -->
     @stack('custom-scripts')
+    <!-- end custom scripts -->
 </body>
 
 </html>

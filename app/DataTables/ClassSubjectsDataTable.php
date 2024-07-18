@@ -2,18 +2,17 @@
 
 namespace App\DataTables;
 
-use App\Models\ClassModel;
+use App\Models\Subject;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\EloquentDataTable;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
-class ClassesDataTable extends DataTable
+class ClassSubjectsDataTable extends DataTable
 {
+    protected string $dataTableVariable = 'dataTableClassSubjects';
     /**
      * Build DataTable class.
      *
@@ -30,24 +29,11 @@ class ClassesDataTable extends DataTable
                 $query->where('name', 'like', ["%{$keyword}%"]);
             })
 
-
             ->addColumn('action', function ($row) {
                 return
                     '
                     <div class="d-flex align-items-center">
-                        <a href="' . route('admin.classes.edit', $row->id) . '" class="text-info">
-                            <button type="button" class="btn btn-sm btn-warning btn-icon-text">
-                                Edit
-                            </button>
-                        </a>
-
-                        <a href="' . route('admin.classes.show', $row->id) . '" class="mx-3 text-info">
-                            <button type="button" class="btn btn-sm btn-info btn-icon-text">
-                                Details
-                            </button>
-                        </a>
-
-                        <form action="' . route('admin.classes.destroy', $row->id) . '" method="post">
+                        <form action="' . route('admin.classes.subjects.delete', [$this->class->id, $row->id]) . '" method="post">
                             <input type="hidden" name="_token" value="' . csrf_token() . '">
                             <input type="hidden" name="_method" value="delete">
                             <button type="submit" onclick="return confirm(\'Apakah Anda Yakin?\')" class="mr-2 btn btn-sm btn-danger btn-icon-text">
@@ -64,12 +50,14 @@ class ClassesDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\ClassModel $model
+     * @param \App\Models\Subject $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(ClassModel $model) : QueryBuilder
+    public function query(Subject $model) : QueryBuilder
     {
-        return $model->newQuery()->orderBy('name');
+        return $model->newQuery()->whereHas('classes', function($q){
+            $q->where('classes.id', $this->class->id);
+        })->latest();
     }
 
     /**
@@ -80,7 +68,7 @@ class ClassesDataTable extends DataTable
     public function html() : HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('class-table')
+            ->setTableId('class-subject-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
@@ -116,6 +104,6 @@ class ClassesDataTable extends DataTable
      */
     protected function filename() : string
     {
-        return 'Classes_' . date('YmdHis');
+        return 'Classes_Subjects' . date('YmdHis');
     }
 }

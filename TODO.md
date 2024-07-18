@@ -38,11 +38,11 @@
     - Assistant
     - Student
       - import
-      - add class
   - Class
-    - Class add student menu
+    - Class schedule
+    - class student
   - Subject
-    - Subject add class menu
+    - Subject schedule
   - Schedule
   - Attandance Data
 - Make Attendance Logic

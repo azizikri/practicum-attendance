@@ -42,8 +42,8 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [$this->isMethod('POST') ? 'required' : 'sometimes', , 'string', 'max:255'],
-            'email' => [$this->isMethod('POST') ? 'required' : 'sometimes', , 'required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user)],
+            'name' => [$this->isMethod('POST') ? 'required' : 'sometimes', 'string', 'max:255'],
+            'email' => [$this->isMethod('POST') ? 'required' : 'sometimes', 'required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user)],
             'password' => ['nullable', 'confirmed', Password::defaults()],
         ];
     }

@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Models\ClassModel;
+use App\Models\Subject;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClassRequest extends FormRequest
+class SubjectRequest extends FormRequest
 {
     public function authorize() : bool
     {
@@ -36,7 +36,7 @@ class ClassRequest extends FormRequest
     public function rules() : array
     {
         return [
-            'name' => [$this->isMethod('POST') ? 'required' : 'sometimes', 'string', 'max:6', Rule::unique(ClassModel::class)->ignore($this->class)]
+            'name' => [$this->isMethod('POST') ? 'required' : 'sometimes', 'string', 'max:6', Rule::unique(Subject::class)->ignore($this->subject)]
         ];
     }
 }

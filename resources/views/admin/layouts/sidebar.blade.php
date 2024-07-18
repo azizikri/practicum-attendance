@@ -20,10 +20,16 @@
             </li>
             @can('isAdmin', auth()->user())
                 <li class="nav-item nav-category">Manajemen</li>
-                <li class="nav-item {{ active_class(['admin.classes.index', 'admin.classes.create', 'admin.classes.edit']) }}">
+                <li class="nav-item {{ active_class(['admin.classes.index', 'admin.classes.create', 'admin.classes.edit', 'admin.classes.show']) }}">
                     <a href="{{ route('admin.classes.index') }}" class="nav-link">
                         <i class="link-icon" data-feather="book"></i>
                         <span class="link-title">Kelas</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ active_class(['admin.subjects.index', 'admin.subjects.create', 'admin.subjects.edit']) }}">
+                    <a href="{{ route('admin.subjects.index') }}" class="nav-link">
+                        <i class="link-icon" data-feather="book"></i>
+                        <span class="link-title">Mata Praktikum</span>
                     </a>
                 </li>
 
