@@ -23,9 +23,10 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input name="email" type="email" class="form-control" id="email" autocomplete="off"
-                                placeholder="Email" value="{{ old('email') }}">
+                            <label for="npm" class="form-label">NPM</label>
+                            <input name="npm" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                type = "number" maxlength = "8" class="form-control" id="npm" autocomplete="off"
+                                placeholder="NPM" value="{{ old('npm') }}">
                         </div>
 
                         <div class="mb-3">

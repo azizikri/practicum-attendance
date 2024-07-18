@@ -33,8 +33,8 @@ License: For each use you must have a valid license purchased only from above li
     <link rel="shortcut icon" href="{{ asset('/favicon.ico') }}">
 
     <!-- plugin css -->
-    <link href="{{ asset('admin-assets/assets/admin/fonts/feather-font/css/iconfont.css') }}" rel="stylesheet" />
-    <link href="{{ asset('admin-assets/assets/admin/plugins/perfect-scrollbar/perfect-scrollbar.css') }}"
+    <link href="{{ asset('admin-assets/assets/fonts/feather-font/css/iconfont.css') }}" rel="stylesheet" />
+    <link href="{{ asset('admin-assets/assets/plugins/perfect-scrollbar/perfect-scrollbar.css') }}"
         rel="stylesheet" />
     <!-- end plugin css -->
 
@@ -49,7 +49,7 @@ License: For each use you must have a valid license purchased only from above li
 
 <body data-base-url="{{ url('/') }}">
 
-    <script src="{{ asset('admin-assets/assets/admin/js/spinner.js') }}"></script>
+    <script src="{{ asset('admin-assets/assets/js/spinner.js') }}"></script>
 
     <div class="main-wrapper" id="app">
         <div class="page-wrapper full-page">
@@ -59,7 +59,7 @@ License: For each use you must have a valid license purchased only from above li
 
     <!-- base js -->
     <script src="{{ asset('admin-assets/js/app.js') }}"></script>
-    <script src="{{ asset('admin-assets/assets/admin/plugins/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ asset('admin-assets/assets/plugins/feather-icons/feather.min.js') }}"></script>
     <!-- end base js -->
 
     <!-- plugin js -->
@@ -67,7 +67,7 @@ License: For each use you must have a valid license purchased only from above li
     <!-- end plugin js -->
 
     <!-- common js -->
-    <script src="{{ asset('admin-assets/assets/admin/js/template.js') }}"></script>
+    <script src="{{ asset('admin-assets/assets/js/template.js') }}"></script>
     <!-- end common js -->
 
     @stack('custom-scripts')

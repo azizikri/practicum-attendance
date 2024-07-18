@@ -5,6 +5,7 @@ namespace App\Http\Requests\Admin;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,15 +23,22 @@ class UserRequest extends FormRequest
 
     protected function prepareForValidation()
     {
+        $isFromAssistantOrStudentRoute = in_array(Route::currentRouteName(), ['admin.assistants.store', 'admin.students.store', 'admin.assistants.update', 'admin.students.update']);
+
         if ($this->isMethod('patch')) {
-            $data = ['name', 'email', 'password'];
+            $data = ['name', 'password'];
+
+            if ($isFromAssistantOrStudentRoute) {
+                $data[] = 'npm';
+            } else {
+                $data[] = 'email';
+            }
 
             foreach ($data as $key) {
                 if ($this->input($key) === null) {
                     $this->request->remove($key);
                 }
             }
-
         }
     }
 
@@ -41,11 +49,28 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $isFromAssistantOrStudentRoute = in_array(Route::currentRouteName(), ['admin.assistants.store', 'admin.students.store', 'admin.assistants.update', 'admin.students.update']);
+
+        $rules = [
             'name' => [$this->isMethod('POST') ? 'required' : 'sometimes', 'string', 'max:255'],
-            'email' => [$this->isMethod('POST') ? 'required' : 'sometimes', 'required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user)],
             'password' => ['nullable', 'confirmed', Password::defaults()],
         ];
+
+        if ($isFromAssistantOrStudentRoute) {
+            $rules['npm'] = [
+                $this->isMethod('POST') ? 'required' : 'sometimes',
+                'numeric',
+                'digits:8',
+                Rule::unique(User::class)
+                    ->where(function ($query) {
+                        return $query->where('role', $this->input('role'));
+                    })
+                    ->ignore($this->user)
+            ];
+        } else {
+            $rules['email'] = [$this->isMethod('POST') ? 'required' : 'sometimes', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user)];
+        }
+
+        return $rules;
     }
 }
-

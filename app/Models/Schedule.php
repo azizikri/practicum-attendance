@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Schedule extends Model
 {
@@ -25,9 +26,19 @@ class Schedule extends Model
         return $this->belongsTo(ClassSubject::class);
     }
 
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
     public function pj()
     {
         return $this->belongsTo(User::class, 'pj_id');
+    }
+
+    public function assistants() : BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
     }
 
     public function students()

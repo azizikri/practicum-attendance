@@ -20,6 +20,7 @@ return new class extends Migration
             $table->smallInteger('session');
             $table->string('assistant_name');
             $table->string('student_name');
+            $table->string('student_npm');
             $table->timestamps();
         });
     }

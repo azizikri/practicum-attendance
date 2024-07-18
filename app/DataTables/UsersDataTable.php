@@ -23,7 +23,9 @@ class UsersDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query) : EloquentDataTable
     {
-        return (new EloquentDataTable($query))
+        $isAssistantOrStudent = in_array($this->role, [UserRole::Assistant, UserRole::Student]);
+
+        $columns = (new EloquentDataTable($query))
             ->addColumn('nama', function ($row) {
                 return $row->name;
             })
@@ -36,32 +38,41 @@ class UsersDataTable extends DataTable
             })
             ->filterColumn('email', function ($query, $keyword) {
                 $query->where('email', 'like', ["%{$keyword}%"]);
+            });
+
+        if ($isAssistantOrStudent) {
+            $columns = $columns->addColumn('npm', function ($row) {
+                return $row->npm;
             })
+                ->filterColumn('npm', function ($query, $keyword) {
+                    $query->where('npm', 'like', ["%{$keyword}%"]);
+                });
+        }
 
-
-            ->addColumn('action', function ($row) {
-                return
-                    '
-                    <div class="d-flex align-items-center">
-                        <a href="' . route('admin.' . $this->role . 's.edit', $row->id) . '" class="mx-3 text-info">
-                            <button type="button" class="mr-3 btn btn-sm btn-warning btn-icon-text">
-                                Edit
-                            </button>
-                        </a>
-
-                        <button
-                            type="button"
-                                class="mr-2 btn btn-sm btn-danger btn-icon-text"
-                                data-bs-toggle="modal"
-                                data-bs-target="#deleteModal"
-                                data-route="' . route('admin.' . $this->role . 's.destroy', $row->id) . '"' . ($this->role == UserRole::Admin && $row->id == auth()->id() ? 'disabled' : '') . '>
-                            Hapus
+        $columns->addColumn('action', function ($row) {
+            return
+                '
+                <div class="d-flex align-items-center">
+                    <a href="' . route('admin.' . $this->role . 's.edit', $row->id) . '" class="mx-3 text-info">
+                        <button type="button" class="mr-3 btn btn-sm btn-warning btn-icon-text">
+                            Edit
                         </button>
-                    </div>
-                ';
-            })
+                    </a>
 
+                    <button
+                        type="button"
+                            class="mr-2 btn btn-sm btn-danger btn-icon-text"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal"
+                            data-route="' . route('admin.' . $this->role . 's.destroy', $row->id) . '"' . ($this->role == UserRole::Admin && $row->id == auth()->id() ? 'disabled' : '') . '>
+                        Hapus
+                    </button>
+                </div>
+            ';
+        })
             ->setRowId('id');
+
+        return $columns;
     }
 
     /**
@@ -102,15 +113,24 @@ class UsersDataTable extends DataTable
      */
     public function getColumns() : array
     {
-        return [
+        $isAssistantOrStudent = in_array($this->role, [UserRole::Assistant, UserRole::Student]);
+
+        $columns = [
             Column::make('nama'),
             Column::make('email'),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(150)
-                ->addClass('text-center'),
         ];
+
+        if ($isAssistantOrStudent) {
+            $columns[] = Column::make('npm');
+        }
+
+        $columns[] = Column::computed('action')
+            ->exportable(false)
+            ->printable(false)
+            ->width(150)
+            ->addClass('text-center');
+
+        return $columns;
     }
 
     /**

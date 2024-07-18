@@ -26,25 +26,32 @@
     - session
     - status
 - Integrate Admin Template ✅
-  - Migrate Assets, Public
-  - Migrate Views, Layouts
-- Make multi auth for admin/assistant/student
-  - make policies
-  - Customize Auth Controller
-  - Customize Routes
-- Make CRUD Logic
-  - User done
-    - Admin
-    - Assistant
-    - Student
+  - Migrate Assets, Public ✅
+  - Migrate Views, Layouts✅
+- Make multi auth for admin/assistant/student✅
+  - make policies✅
+  - Customize Auth Controller✅
+  - Customize Routes✅
+- Make CRUD Logic✅
+  - User done✅
+    - Admin✅
+    - Assistant✅
+    - Student✅
       - import
-  - Class
-    - Class schedule
-    - class student
-  - Subject
-    - Subject schedule
-  - Schedule
-  - Attandance Data
+  - Class✅
+    - Class subject✅
+    - class student✅
+  - Subject✅
+  - Schedule show according to academic year
+    - classsubject schedule
+    - attendance
+- Dashboard
+  - Admin
+    - all schedule with attendance according to session, with button details
+  - assistant
+    - assistant 
+- setting
+  - acedmic year
 - Make Attendance Logic
   - assistant generate unique key hash (assistant name, class name, subject name, and schedule day and shift, random number)
   - student scans, unique key refreshed

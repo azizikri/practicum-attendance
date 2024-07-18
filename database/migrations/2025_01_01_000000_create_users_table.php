@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\UserRole;
-use App\Models\ClassModel;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -17,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('class_id')->nullable()->constrained('classes')->nullOnDelete();
             $table->string('name');
+            $table->string('npm')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
