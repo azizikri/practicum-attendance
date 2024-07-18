@@ -64,7 +64,7 @@ class UsersDataTable extends DataTable
                             class="mr-2 btn btn-sm btn-danger btn-icon-text"
                             data-bs-toggle="modal"
                             data-bs-target="#deleteModal"
-                            data-route="' . route('admin.' . $this->role . 's.destroy', $row->id) . '"' . ($this->role == UserRole::Admin && $row->id == auth()->id() ? 'disabled' : '') . '>
+                            data-route="' . route('admin.' . $this->role . 's.destroy', $row->id) . '">
                         Hapus
                     </button>
                 </div>

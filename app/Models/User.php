@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\UserRole;
 use App\Observers\UserObserver;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -56,5 +57,10 @@ class User extends Authenticatable
     public function class() : BelongsTo
     {
         return $this->belongsTo(ClassModel::class, 'class_id');
+    }
+
+    public static function checkAdminCount() : bool
+    {
+        return self::whereRole(UserRole::Admin)->count() > 1;
     }
 }

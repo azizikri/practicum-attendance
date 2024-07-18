@@ -8,7 +8,7 @@ use BenSampo\Enum\Enum;
  * @method static static PTA()
  * @method static static ATA()
  */
-final class AcademicPeriodEnum extends Enum
+final class AcademicPeriod extends Enum
 {
     const PTA = 'pta';
     const ATA = 'ata';

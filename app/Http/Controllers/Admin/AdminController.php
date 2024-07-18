@@ -69,17 +69,12 @@ class AdminController extends Controller
      */
     public function destroy(User $user)
     {
-        if (! $this->checkAdmin()) {
+        if (! $user->checkAdminCount()) {
             return back()->with('error', 'Admin hanya satu! Tidak boleh dihapus!');
         }
 
         $user->delete();
 
         return redirect()->route('admin.admins.index')->with('success', 'Admin berhasil dihapus');
-    }
-
-    private function checkAdmin() : bool
-    {
-        return User::whereRole(UserRole::Admin)->count() > 1;
     }
 }
