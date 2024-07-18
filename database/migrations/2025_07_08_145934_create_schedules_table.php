@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\AcademicPeriodEnum;
 use App\Enums\ScheduleDay;
 use App\Enums\ScheduleShift;
 use Illuminate\Support\Facades\Schema;
@@ -19,6 +20,7 @@ return new class extends Migration {
             $table->string('class_subject_name');
             $table->string('pj_name');
             $table->smallInteger('academic_year');
+            $table->enum('academic_period', AcademicPeriodEnum::getValues());
             $table->smallInteger('session')->default(1);
             $table->enum('day', ScheduleDay::getValues());
             $table->enum('shift', ScheduleShift::getValues());

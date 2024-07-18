@@ -17,6 +17,7 @@ class Schedule extends Model
         'class_subject_name',
         'pj_name',
         'academic_year',
+        'academic_period',
         'day',
         'shift'
     ];
