@@ -47,13 +47,14 @@ class ClassesDataTable extends DataTable
                             </button>
                         </a>
 
-                        <form action="' . route('admin.classes.destroy', $row->id) . '" method="post">
-                            <input type="hidden" name="_token" value="' . csrf_token() . '">
-                            <input type="hidden" name="_method" value="delete">
-                            <button type="submit" onclick="return confirm(\'Apakah Anda Yakin?\')" class="mr-2 btn btn-sm btn-danger btn-icon-text">
+                        <button
+                            type="button"
+                            class="mr-2 btn btn-sm btn-danger btn-icon-text"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal"
+                            data-route="' . route('admin.classes.destroy', $row->id) . '">
                                 Hapus
-                            </button>
-                        </form>
+                        </button>
                     </div>
                 ';
             })

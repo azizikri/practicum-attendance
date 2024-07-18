@@ -80,6 +80,34 @@ License: For each use you must have a valid license purchased only from above li
                 @yield('content')
             </div>
             @include('admin.layouts.footer')
+
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Hapus Data?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Yakin ingin menghapus data ini? Data lain yang berelasi ke data ini akan hilang!
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                            <form id="delete-data" action="" method="post">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-danger btn-icon-text">
+                                    <i class="btn-icon-prepend" data-feather="trash"></i>
+                                    Hapus Data
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -98,6 +126,17 @@ License: For each use you must have a valid license purchased only from above li
     <!-- end common js -->
 
     <!-- start custom scripts -->
+    <script>
+        $(document).ready(function() {
+            $('#deleteModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var route = button.data('route'); // Extract user ID from data-* attributes
+                var actionUrl = ":route";
+                actionUrl = actionUrl.replace(':route', route);
+                $('#delete-data').attr('action', actionUrl);
+            });
+        });
+    </script>
     @stack('custom-scripts')
     <!-- end custom scripts -->
 </body>
