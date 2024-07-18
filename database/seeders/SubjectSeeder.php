@@ -36,10 +36,16 @@ class SubjectSeeder extends Seeder
                 'name' => 'Interaksi Manusia Komputer',
             ],
             [
-                'name' => 'Grafik Komputer',
+                'name' => 'Grafik Komputer 1',
             ],
             [
-                'name' => 'Sistem Basis Data',
+                'name' => 'Grafik Komputer 2',
+            ],
+            [
+                'name' => 'Sistem Basis Data 1',
+            ],
+            [
+                'name' => 'Sistem Basis Data 2',
             ],
             [
                 'name' => 'Pemrograman Jaringan',
