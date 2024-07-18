@@ -6,13 +6,13 @@ use App\Models\User;
 use App\Enums\UserRole;
 use App\Models\Subject;
 use App\Models\ClassModel;
-use App\Http\Requests\ClassRequest;
+use App\Http\Requests\Admin\ClassRequest;
 use App\DataTables\ClassesDataTable;
 use App\Http\Controllers\Controller;
 use App\DataTables\ClassStudentsDataTable;
 use App\DataTables\ClassSubjectsDataTable;
-use App\Http\Requests\ClassStudentRequest;
-use App\Http\Requests\ClassSubjectRequest;
+use App\Http\Requests\Admin\ClassStudentRequest;
+use App\Http\Requests\Admin\ClassSubjectRequest;
 
 class ClassModelController extends Controller
 {
@@ -52,7 +52,7 @@ class ClassModelController extends Controller
         return view("admin.classes.show", [
             'class' => $class,
             'students' => User::whereRole(UserRole::Student)->whereNull('class_id')->get(),
-            'subjects' => Subject::whereDoesntHave('classes', function($q) use ($class){
+            'subjects' => Subject::whereDoesntHave('classes', function ($q) use ($class) {
                 $q->where('classes.id', $class->id);
             })->get(['id', 'name', 'short_name']),
             'dataTableClassStudents' => $dataTableStudents->with('class', $class)->html()->ajax([

@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
-use App\Rules\CheckRoleStudent;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClassStudentRequest extends FormRequest
+class ClassSubjectRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
+    public function authorize() : bool
     {
         return auth()->check() && Gate::authorize('isAdmin', auth()->user());
     }
@@ -21,11 +20,11 @@ class ClassStudentRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules() : array
     {
         return [
-            'students' => ['required', 'array'],
-            'students.*' => ['exists:users,id', new CheckRoleStudent],
+            'subjects' => ['required', 'array'],
+            'subjects.*' => ['exists:subjects,id'],
         ];
     }
 }

@@ -6,7 +6,7 @@ use App\DataTables\SubjectDataTable;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SubjectRequest;
+use App\Http\Requests\Admin\SubjectRequest;
 
 class SubjectController extends Controller
 {
