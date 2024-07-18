@@ -15,69 +15,109 @@ use Yajra\DataTables\Services\DataTable;
 class SubjectDataTable extends DataTable
 {
     /**
-     * Build the DataTable class.
+     * Build DataTable class.
      *
      * @param QueryBuilder $query Results from query() method.
+     * @return \Yajra\DataTables\EloquentDataTable
      */
-    public function dataTable(QueryBuilder $query): EloquentDataTable
+    public function dataTable(QueryBuilder $query) : EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'subject.action')
+            ->addColumn('nama', function ($row) {
+                return $row->name;
+            })
+            ->filterColumn('nama', function ($query, $keyword) {
+                $query->where('name', 'like', ["%{$keyword}%"]);
+            })
+
+            ->addColumn('singkatan', function ($row) {
+                return $row->short_name;
+            })
+            ->filterColumn('singkatan', function ($query, $keyword) {
+                $query->where('short_name', 'like', ["%{$keyword}%"]);
+            })
+
+
+            ->addColumn('action', function ($row) {
+                return
+                    '
+                    <div class="d-flex align-items-center">
+                        <a href="' . route('admin.subjects.edit', $row->id) . '" class="mx-3 text-info">
+                            <button type="button" class="btn btn-sm btn-warning btn-icon-text">
+                                Edit
+                            </button>
+                        </a>
+
+                        <button
+                            type="button"
+                            class="mr-2 btn btn-sm btn-danger btn-icon-text"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal"
+                            data-route="' . route('admin.subjects.destroy', $row->id) . '">
+                                Hapus
+                        </button>
+                    </div>
+                ';
+            })
+
             ->setRowId('id');
     }
 
     /**
-     * Get the query source of dataTable.
+     * Get query source of dataTable.
+     *
+     * @param \App\Models\Subject $model
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Subject $model): QueryBuilder
+    public function query(Subject $model) : QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('name');
     }
 
     /**
-     * Optional method if you want to use the html builder.
+     * Optional method if you want to use html builder.
+     *
+     * @return \Yajra\DataTables\Html\Builder
      */
-    public function html(): HtmlBuilder
+    public function html() : HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('subject-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('class-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+
+                Button::make('reload')
+            ]);
     }
 
     /**
      * Get the dataTable columns definition.
+     *
+     * @return array
      */
-    public function getColumns(): array
+    public function getColumns() : array
     {
         return [
+            Column::make('nama'),
+            Column::make('singkatan'),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(150)
+                ->addClass('text-center'),
         ];
     }
 
     /**
-     * Get the filename for export.
+     * Get filename for export.
+     *
+     * @return string
      */
-    protected function filename(): string
+    protected function filename() : string
     {
         return 'Subject_' . date('YmdHis');
     }
