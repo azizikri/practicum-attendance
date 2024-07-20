@@ -44,7 +44,8 @@ class ClassStudentsDataTable extends DataTable
                             class="mr-2 btn btn-sm btn-danger btn-icon-text"
                             data-bs-toggle="modal"
                             data-bs-target="#deleteModal"
-                            data-route="' . route('admin.classes.students.delete', $row->id)  . '">
+                            data-route="' . route('admin.classes.students.delete', $row->id)  . '"
+                            data-title="Apakah anda ingin menghapus praktikan'. $row->name .' dari kelas '. $this->class->name.'?">
                                 Hapus
                         </button>
                     </div>

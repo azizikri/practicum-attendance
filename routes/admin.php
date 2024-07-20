@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AssistantController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ClassModelController;
 use App\Http\Controllers\Admin\AjaxDataTableController;
+use App\Http\Controllers\Admin\ScheduleController;
 
 Route::middleware(['auth', 'user-access:admin,assistant'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
@@ -42,8 +43,8 @@ Route::middleware(['auth', 'user-access:admin,assistant'])->group(function () {
 
         Route::group(['prefix' => 'classes', 'as' => 'classes.'], function () {
             Route::get('/', [ClassModelController::class, 'index'])->name('index');
-            Route::get('/{class}', [SubjectController::class, 'show'])->name('show');
             Route::get('/create', [ClassModelController::class, 'create'])->name('create');
+            Route::get('/{class}', [ClassModelController::class, 'show'])->name('show');
             Route::post('/', [ClassModelController::class, 'store'])->name('store');
             Route::get('/{class}/edit', [ClassModelController::class, 'edit'])->name('edit');
             Route::patch('/{class}', [ClassModelController::class, 'update'])->name('update');
@@ -62,6 +63,19 @@ Route::middleware(['auth', 'user-access:admin,assistant'])->group(function () {
             Route::get('/{subject}/edit', [SubjectController::class, 'edit'])->name('edit');
             Route::patch('/{subject}', [SubjectController::class, 'update'])->name('update');
             Route::delete('/{subject}', [SubjectController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::group(['prefix' => 'schedules', 'as' => 'schedules.'], function () {
+            Route::get('/', [ScheduleController::class, 'index'])->name('index');
+            Route::get('/create', [ScheduleController::class, 'create'])->name('create');
+            Route::get('/{schedule}', [ScheduleController::class, 'show'])->name('show');
+            Route::post('/', [ScheduleController::class, 'store'])->name('store');
+            Route::get('/{schedule}/edit', [ScheduleController::class, 'edit'])->name('edit');
+            Route::patch('/{schedule}', [ScheduleController::class, 'update'])->name('update');
+            Route::delete('/{schedule}', [ScheduleController::class, 'destroy'])->name('destroy');
+
+            Route::patch('/{schedule}/assistants/store', [ScheduleController::class, 'addAssistants'])->name('assistants.store');
+            Route::delete('/{schedule}/assistants/{user}/delete', [ScheduleController::class, 'deleteAssistant'])->name('assistants.delete');
         });
 
         Route::group(['prefix' => 'data-table', 'as' => 'data-table.'], function () {

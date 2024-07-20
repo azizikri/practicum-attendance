@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Enums\UserRole;
-use App\DataTables\UsersDataTable;
+use App\DataTables\UserDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Admin\UserRequest;
@@ -14,7 +14,7 @@ class AssistantController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(UsersDataTable $dataTable)
+    public function index(UserDataTable $dataTable)
     {
         return $dataTable->with('role', UserRole::Assistant)->render('admin.assistants.index');
     }

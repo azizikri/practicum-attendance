@@ -32,7 +32,7 @@
 
                         <div class="mb-3">
                             <label for="academic_period" class="form-label">Periode Akademik</label>
-                            <select class="form-control" id="academic_period" name="academic_period">
+                            <select class="form-control select-academic-period" id="academic_period" name="academic_period">
                                 @foreach ($academicPeriod::getKeys() as $period)
                                     <option value="{{ $academicPeriod::getValue($period) }}" @selected($academicPeriod::getValue($period) == old('academic_period', settings()->get('academic_period')))>
                                         {{ $period }}

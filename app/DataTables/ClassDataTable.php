@@ -12,7 +12,7 @@ use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
-class ClassesDataTable extends DataTable
+class ClassDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -52,7 +52,8 @@ class ClassesDataTable extends DataTable
                             class="mr-2 btn btn-sm btn-danger btn-icon-text"
                             data-bs-toggle="modal"
                             data-bs-target="#deleteModal"
-                            data-route="' . route('admin.classes.destroy', $row->id) . '">
+                            data-route="' . route('admin.classes.destroy', $row->id) . '"
+                            data-title="Apakah anda ingin menghapus kelas '. $row->name .'?">
                                 Hapus
                         </button>
                     </div>

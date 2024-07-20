@@ -7,7 +7,7 @@ use App\Enums\UserRole;
 use App\Models\Subject;
 use App\Models\ClassModel;
 use App\Http\Requests\Admin\ClassRequest;
-use App\DataTables\ClassesDataTable;
+use App\DataTables\ClassDataTable;
 use App\Http\Controllers\Controller;
 use App\DataTables\ClassStudentsDataTable;
 use App\DataTables\ClassSubjectsDataTable;
@@ -19,7 +19,7 @@ class ClassModelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ClassesDataTable $dataTable)
+    public function index(ClassDataTable $dataTable)
     {
         return $dataTable->render('admin.classes.index');
     }
@@ -64,7 +64,6 @@ class ClassModelController extends Controller
                 "type" => "GET",
             ]),
         ]);
-
     }
 
     /**

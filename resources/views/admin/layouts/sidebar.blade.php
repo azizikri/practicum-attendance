@@ -19,7 +19,7 @@
                 </a>
             </li>
             @can('isAdmin', auth()->user())
-                <li class="nav-item nav-category">Manajemen Admin</li>
+                <li class="nav-item nav-category">Manajemen Data</li>
                 <li class="nav-item {{ active_class(['admin.classes.index', 'admin.classes.create', 'admin.classes.edit', 'admin.classes.show']) }}">
                     <a href="{{ route('admin.classes.index') }}" class="nav-link">
                         <i class="link-icon" data-feather="book"></i>
@@ -32,8 +32,14 @@
                         <span class="link-title">Mata Praktikum</span>
                     </a>
                 </li>
+                <li class="nav-item {{ active_class(['admin.schedules.index', 'admin.schedules.create', 'admin.schedules.edit']) }}">
+                    <a href="{{ route('admin.schedules.index') }}" class="nav-link">
+                        <i class="link-icon" data-feather="clock"></i>
+                        <span class="link-title">Jadwal</span>
+                    </a>
+                </li>
 
-                <li class="nav-item nav-category">Pengguna</li>
+                <li class="nav-item nav-category">Manajemen Pengguna</li>
                 <li class="nav-item {{ active_class(['admin.admins.index', 'admin.admins.create', 'admin.admins.edit']) }}">
                     <a href="{{ route('admin.admins.index') }}" class="nav-link">
                         <i class="link-icon" data-feather="shield"></i>
@@ -54,6 +60,8 @@
                         <span class="link-title">Praktikan</span>
                     </a>
                 </li>
+
+                <li class="nav-item nav-category">Settings</li>
                 <li
                     class="nav-item {{ active_class(['admin.settings.edit']) }}">
                     <a href="{{ route('admin.settings.edit') }}" class="nav-link">

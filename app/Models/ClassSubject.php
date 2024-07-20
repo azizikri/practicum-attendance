@@ -11,6 +11,6 @@ class ClassSubject extends Pivot
 
     public function schedules()
     {
-        return $this->hasMany(Schedule::class);
+        return $this->hasMany(Schedule::class, 'class_subject_id');
     }
 }

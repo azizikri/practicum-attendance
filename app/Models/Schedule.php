@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
+use App\Observers\ScheduleObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+#[ObservedBy([ScheduleObserver::class])]
 
 class Schedule extends Model
 {
@@ -18,13 +22,14 @@ class Schedule extends Model
         'pj_name',
         'academic_year',
         'academic_period',
+        'location',
         'day',
         'shift'
     ];
 
     public function classSubject()
     {
-        return $this->belongsTo(ClassSubject::class);
+        return $this->belongsTo(ClassSubject::class, 'class_subject_id');
     }
 
     public function attendances()

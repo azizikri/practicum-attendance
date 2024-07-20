@@ -7,7 +7,7 @@ use App\Rules\CheckRole;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClassStudentRequest extends FormRequest
+class ScheduleAssistantRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,8 @@ class ClassStudentRequest extends FormRequest
     public function rules() : array
     {
         return [
-            'students' => ['required', 'array'],
-            'students.*' => ['exists:users,id', new CheckRole(UserRole::Student)],
+            'assistants' => ['required', 'array'],
+            'assistants.*' => ['exists:users,id', new CheckRole(UserRole::Assistant)],
         ];
     }
 }

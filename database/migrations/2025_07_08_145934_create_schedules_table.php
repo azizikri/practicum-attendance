@@ -2,6 +2,7 @@
 
 use App\Enums\AcademicPeriod;
 use App\Enums\ScheduleDay;
+use App\Enums\ScheduleLocation;
 use App\Enums\ScheduleShift;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -19,11 +20,12 @@ return new class extends Migration {
             $table->foreignId('pj_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('class_subject_name');
             $table->string('pj_name');
-            $table->smallInteger('academic_year');
+            $table->string('academic_year');
             $table->enum('academic_period', AcademicPeriod::getValues());
-            $table->smallInteger('session')->default(1);
+            $table->enum('location', ScheduleLocation::getValues());
             $table->enum('day', ScheduleDay::getValues());
             $table->enum('shift', ScheduleShift::getValues());
+            $table->smallInteger('session')->default(1);
             $table->timestamps();
         });
     }

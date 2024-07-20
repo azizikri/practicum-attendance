@@ -2,17 +2,20 @@
 
 namespace App\DataTables;
 
-use App\Models\Subject;
+use App\Models\User;
+use App\Enums\UserRole;
+use App\Models\ScheduleAssistant;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Editor\Editor;
+use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
-class ClassSubjectsDataTable extends DataTable
+class ScheduleAssistantDataTable extends DataTable
 {
-    protected string $dataTableVariable = 'dataTableClassSubjects';
     /**
      * Build DataTable class.
      *
@@ -38,8 +41,8 @@ class ClassSubjectsDataTable extends DataTable
                             class="mr-2 btn btn-sm btn-danger btn-icon-text"
                             data-bs-toggle="modal"
                             data-bs-target="#deleteModal"
-                            data-route="' . route('admin.classes.subjects.delete', [$this->class->id, $row->id]) . '"
-                            data-title="Apakah anda ingin menghapus mata praktikum '. $row->name .' dari kelas '. $this->class->name.'?">
+                            data-route="' . route('admin.schedules.assistants.delete', [$this->schedule->id, $row->id]) . '"
+                            data-title="Apakah anda ingin menghapus praktikan' . $row->name . ' dari kelas ' . $this->schedule->name . '?">
                                 Hapus
                         </button>
                     </div>
@@ -52,14 +55,14 @@ class ClassSubjectsDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Subject $model
+     * @param \App\Models\ClassModel $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Subject $model) : QueryBuilder
+    public function query(User $model) : QueryBuilder
     {
-        return $model->newQuery()->whereHas('classes', function($q){
-            $q->where('classes.id', $this->class->id);
-        })->latest();
+        return $model->newQuery()->whereRole(UserRole::Assistant)->whereHas('schedules', function ($q) {
+            $q->where('schedule_id', $this->schedule->id);
+        })->orderBy('name');
     }
 
     /**
@@ -70,7 +73,7 @@ class ClassSubjectsDataTable extends DataTable
     public function html() : HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('class-subject-table')
+            ->setTableId('class-assistant-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
@@ -106,6 +109,6 @@ class ClassSubjectsDataTable extends DataTable
      */
     protected function filename() : string
     {
-        return 'Classes_Subjects' . date('YmdHis');
+        return 'Classes_Students' . date('YmdHis');
     }
 }

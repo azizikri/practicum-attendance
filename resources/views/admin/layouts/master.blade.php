@@ -86,7 +86,7 @@ License: For each use you must have a valid license purchased only from above li
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Hapus Data?</h5>
+                            <h5 class="modal-title" id="modal-delete-title"></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
@@ -129,11 +129,13 @@ License: For each use you must have a valid license purchased only from above li
     <script>
         $(document).ready(function() {
             $('#deleteModal').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget); // Button that triggered the modal
-                var route = button.data('route'); // Extract user ID from data-* attributes
-                var actionUrl = ":route";
-                actionUrl = actionUrl.replace(':route', route);
-                $('#delete-data').attr('action', actionUrl);
+                var button = $(event.relatedTarget);
+                var route = button.data('route');
+                var modalTitle = button.data('title');
+                console.log(modalTitle)
+                $('#modal-delete-title').text(modalTitle);
+                $('#delete-data').attr('action', route);
+
             });
         });
     </script>

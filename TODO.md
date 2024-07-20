@@ -42,7 +42,7 @@
     - Class subject✅
     - class student✅
   - Subject✅
-  - setting
+  - setting✅
     - acedmic year
   - Schedule show according to academic year
     - classsubject schedule

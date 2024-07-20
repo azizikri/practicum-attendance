@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 #[ObservedBy([UserObserver::class])]
 class User extends Authenticatable
@@ -57,6 +58,11 @@ class User extends Authenticatable
     public function class() : BelongsTo
     {
         return $this->belongsTo(ClassModel::class, 'class_id');
+    }
+
+    public function schedules() : BelongsToMany
+    {
+        return $this->belongsToMany(Schedule::class);
     }
 
     public static function checkAdminCount() : bool

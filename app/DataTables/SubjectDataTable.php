@@ -53,7 +53,8 @@ class SubjectDataTable extends DataTable
                             class="mr-2 btn btn-sm btn-danger btn-icon-text"
                             data-bs-toggle="modal"
                             data-bs-target="#deleteModal"
-                            data-route="' . route('admin.subjects.destroy', $row->id) . '">
+                            data-route="' . route('admin.subjects.destroy', $row->id) . '"
+                            data-title="Apakah anda ingin menghapus Mata Praktikum '. $row->name .'?">
                                 Hapus
                         </button>
                     </div>

@@ -17,8 +17,14 @@ class AssistantSeeder extends Seeder
     {
         $users = collect([
             [
-                'name' => 'Zikri Endisyah Munandar',
+                'name' => 'Zikri Endisyah Munandar - Assisten',
                 'npm' => '51421566',
+                'password' => Hash::make('qwertyuiop'),
+                'role' => UserRole::Assistant,
+            ],
+            [
+                'name' => 'Hauzan Dini Fakhri - Assisten',
+                'npm' => '51421567',
                 'password' => Hash::make('qwertyuiop'),
                 'role' => UserRole::Assistant,
             ],
