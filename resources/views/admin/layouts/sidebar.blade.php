@@ -32,7 +32,7 @@
                         <span class="link-title">Mata Praktikum</span>
                     </a>
                 </li>
-                <li class="nav-item {{ active_class(['admin.schedules.index', 'admin.schedules.create', 'admin.schedules.edit']) }}">
+                <li class="nav-item {{ active_class(['admin.schedules.index', 'admin.schedules.create', 'admin.schedules.edit', 'admin.schedules.show']) }}">
                     <a href="{{ route('admin.schedules.index') }}" class="nav-link">
                         <i class="link-icon" data-feather="clock"></i>
                         <span class="link-title">Jadwal</span>
