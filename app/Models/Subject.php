@@ -31,8 +31,25 @@ class Subject extends Model
 
     public function schedules()
     {
-        return $this->hasManyThrough(Schedule::class, ClassSubject::class);
+        return $this->hasManyThrough(
+            Schedule::class,
+            ClassSubject::class,
+            'subject_id',
+            'class_subject_id',
+        'id');
     }
+
+    public function currentScheduleId()
+    {
+
+        $schedule = $this->schedules()
+            ->where('academic_year', settings()->get('academic_year'))
+            ->where('academic_period', settings()->get('academic_period'))
+            ->first();
+
+        return $schedule ? $schedule->id : null;
+    }
+
 
     public static function generateShortName($name)
     {

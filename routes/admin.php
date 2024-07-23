@@ -69,9 +69,11 @@ Route::middleware(['auth', 'user-access:admin,assistant'])->group(function () {
             Route::get('/', [ScheduleController::class, 'index'])->name('index');
             Route::get('/create', [ScheduleController::class, 'create'])->name('create');
             Route::get('/{schedule}', [ScheduleController::class, 'show'])->name('show');
+            Route::get('/{schedule}/end-session', [ScheduleController::class, 'endSession'])->name('end-session');
             Route::post('/', [ScheduleController::class, 'store'])->name('store');
             Route::get('/{schedule}/edit', [ScheduleController::class, 'edit'])->name('edit');
             Route::patch('/{schedule}', [ScheduleController::class, 'update'])->name('update');
+            Route::patch('/{schedule}', [ScheduleController::class, 'updateSession'])->name('update-session');
             Route::delete('/{schedule}', [ScheduleController::class, 'destroy'])->name('destroy');
 
             Route::patch('/{schedule}/assistants/store', [ScheduleController::class, 'addAssistants'])->name('assistants.store');

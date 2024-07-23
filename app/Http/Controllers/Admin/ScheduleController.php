@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\DataTables\ScheduleDataTable;
 use App\Http\Requests\Admin\ScheduleRequest;
 use App\DataTables\ScheduleAssistantDataTable;
+use App\Http\Requests\Admin\UpdateScheduleSession;
 use App\Http\Requests\Admin\ScheduleAssistantRequest;
 
 class ScheduleController extends Controller
@@ -23,7 +24,7 @@ class ScheduleController extends Controller
      */
     public function index(ScheduleDataTable $dataTable)
     {
-        return $dataTable->render('admin.schedules.index');
+        return $dataTable->with('role', auth()->user()->role)->render('admin.schedules.index');
     }
 
     /**
@@ -140,5 +141,26 @@ class ScheduleController extends Controller
         $schedule->assistants()->detach($user);
 
         return back()->with('success', 'Asisten berhasil dihapus!');
+    }
+
+    public function endSession(Schedule $schedule)
+    {
+        if ($schedule->session >= 8){
+            return back()->with('error', 'Jadwal sudah mencapai ujian');
+        }
+
+        $schedule->session += 1;
+        $schedule->save();
+
+        return back()->with('success', 'Jadwal berhasil diselesaikan!');
+    }
+
+    public function updateSession(UpdateScheduleSession $request, Schedule $schedule)
+    {
+        $data = $request->validated();
+
+        $schedule->update($data);
+
+        return back()->with('success', 'Session berhasil diupdate!');
     }
 }

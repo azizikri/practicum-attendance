@@ -24,7 +24,8 @@ class Schedule extends Model
         'academic_period',
         'location',
         'day',
-        'shift'
+        'shift',
+        'session'
     ];
 
     public function classSubject()

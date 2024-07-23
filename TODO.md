@@ -43,8 +43,8 @@
     - class student✅
   - Subject✅
   - setting✅
-    - acedmic year
-  - Schedule show according to academic year
+    - acedmic year✅
+  - Schedule show according to academic year✅
     - classsubject schedule
     - attendance
 - Dashboard

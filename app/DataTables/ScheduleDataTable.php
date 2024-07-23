@@ -2,15 +2,16 @@
 
 namespace App\DataTables;
 
+use App\Enums\UserRole;
 use App\Models\Schedule;
-use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Yajra\DataTables\EloquentDataTable;
-use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
 class ScheduleDataTable extends DataTable
 {
@@ -84,15 +85,25 @@ class ScheduleDataTable extends DataTable
             ->addColumn('action', function ($row) {
                 return
                     '
-                    <div class="d-flex align-items-center">
-
-                        <a href="' . route('admin.schedules.edit', $row->id) . '" class="mx-3 text-info">
-                            <button type="button" class="btn btn-sm btn-dark btn-icon-text">
-                                Selsaikan Pertemuan
+                    <div class="d-flex align-items-center">' .
+                        (in_array($this->role, [UserRole::Admin]) || auth()->id() == $row->pj_id ?
+                        '<div class="btn-group" role="group">
+                            <button id="btnGroupDrop1" type="button" class="mx-3 btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Atur Pertemuan
                             </button>
-                        </a>
-
-                        <a href="' . route('admin.schedules.edit', $row->id) . '" class="text-info">
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <a class="dropdown-item" href="' . route('admin.schedules.end-session', $row->id) . '">Selesaikan Pertemuan</a>
+                                <button
+                                    class="dropdown-item"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#updateScheduleSessionModal"
+                                    data-route="' . route('admin.schedules.update-session', $row->id) . '"
+                                    data-title="Apakah anda ingin update sesi jadwal ' . $row->class_subject_name . '?">
+                                    Atur Pertemuan
+                                </button>
+                            </div>
+                        </div>' : '')
+                        .'<a href="' . route('admin.schedules.edit', $row->id) . '" class="text-info">
                             <button type="button" class="btn btn-sm btn-warning btn-icon-text">
                                 Edit
                             </button>
@@ -128,7 +139,7 @@ class ScheduleDataTable extends DataTable
      */
     public function query(Schedule $model) : QueryBuilder
     {
-        return $model->newQuery()->where('academic_year', settings()->get('academic_year'))->orWhere('academic_period', settings()->get('academic_period'))->orderBy('academic_period');
+        return $model->newQuery()->where('academic_year', settings()->get('academic_year'))->where('academic_period', settings()->get('academic_period'))->orderBy('academic_period');
     }
 
     /**

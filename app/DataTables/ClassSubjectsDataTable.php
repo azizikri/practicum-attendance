@@ -32,8 +32,14 @@ class ClassSubjectsDataTable extends DataTable
             ->addColumn('action', function ($row) {
                 return
                     '
-                    <div class="d-flex align-items-center">
-                        <button
+                    <div class="d-flex align-items-center">'.
+                        ($row->currentScheduleId() != null ?
+                        '<a href="' . route('admin.schedules.show', $row->currentScheduleId()) . '" class="mx-3 text-info">
+                            <button type="button" class="btn btn-sm btn-info btn-icon-text">
+                                Details
+                            </button>
+                        </a>' : '')
+                        .'<button
                             type="button"
                             class="mr-2 btn btn-sm btn-danger btn-icon-text"
                             data-bs-toggle="modal"
