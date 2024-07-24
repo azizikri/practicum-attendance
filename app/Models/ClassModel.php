@@ -31,9 +31,16 @@ class ClassModel extends Model
     {
         return $this->hasMany(User::class);
     }
+    
 
     public function schedules()
     {
-        return $this->hasManyThrough(Schedule::class, ClassSubject::class);
+        return $this->hasManyThrough(
+            Schedule::class,
+            ClassSubject::class,
+            'class_id',
+            'class_subject_id',
+            'id'
+        );
     }
 }

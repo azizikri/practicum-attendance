@@ -19,6 +19,10 @@ class UserAccess
             return $next($request);
         }
 
-        return abort(404);
+        if (in_array(auth()->user()->role, [UserRole::Admin, UserRole::Assistant])){
+            return redirect()->route('admin.dashboard');
+        } else {
+            return redirect()->route('dashboard');
+        }
     }
 }

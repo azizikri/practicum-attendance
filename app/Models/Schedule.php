@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 #[ObservedBy([ScheduleObserver::class])]
-
 class Schedule extends Model
 {
     use HasFactory;

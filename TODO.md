@@ -38,6 +38,7 @@
     - Assistant✅
     - Student✅
       - import
+      - naik kelas
   - Class✅
     - Class subject✅
     - class student✅
@@ -46,7 +47,7 @@
     - acedmic year✅
   - Schedule show according to academic year✅
     - classsubject schedule
-    - attendance
+  - attendance
 - Dashboard
   - Admin
     - all schedule with attendance according to session, with button details

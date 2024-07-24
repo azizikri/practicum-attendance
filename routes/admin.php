@@ -5,11 +5,12 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\AssistantController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\ClassModelController;
 use App\Http\Controllers\Admin\AjaxDataTableController;
-use App\Http\Controllers\Admin\ScheduleController;
 
 Route::middleware(['auth', 'user-access:admin,assistant'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
@@ -78,6 +79,12 @@ Route::middleware(['auth', 'user-access:admin,assistant'])->group(function () {
 
             Route::patch('/{schedule}/assistants/store', [ScheduleController::class, 'addAssistants'])->name('assistants.store');
             Route::delete('/{schedule}/assistants/{user}/delete', [ScheduleController::class, 'deleteAssistant'])->name('assistants.delete');
+        });
+
+        Route::group(['prefix' => 'attendances', 'as' => 'attendances.'], function(){
+            Route::get('/', [AttendanceController::class, 'index'])->name('index');
+            Route::get('/create/{schedule}', [AttendanceController::class, 'create'])->name('create');
+            Route::delete('/{attendance}', [AttendanceController::class, 'destroy'])->name('destroy');
         });
 
         Route::group(['prefix' => 'data-table', 'as' => 'data-table.'], function () {

@@ -38,6 +38,12 @@
                         <span class="link-title">Jadwal</span>
                     </a>
                 </li>
+                <li class="nav-item {{ active_class(['admin.attendances.index']) }}">
+                    <a href="{{ route('admin.attendances.index') }}" class="nav-link">
+                        <i class="link-icon" data-feather="edit-2"></i>
+                        <span class="link-title">Presensi</span>
+                    </a>
+                </li>
 
                 <li class="nav-item nav-category">Manajemen Pengguna</li>
                 <li class="nav-item {{ active_class(['admin.admins.index', 'admin.admins.create', 'admin.admins.edit']) }}">

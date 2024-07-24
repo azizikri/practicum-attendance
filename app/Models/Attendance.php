@@ -14,8 +14,11 @@ class Attendance extends Model
         'schedule_id',
         'assistant_id',
         'student_id',
+        'schedule_class_subject_name',
         'assistant_name',
         'student_name',
+        'student_npm',
+        'session'
     ];
 
     /**

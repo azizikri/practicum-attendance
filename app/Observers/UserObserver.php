@@ -40,11 +40,11 @@ class UserObserver
         }
 
         if ($isStudent) {
-            $user->email = "{$user->npm}@iflab.gunadarma.id";
+            $user->email = "{$user->npm}@iflab.gunadarma.ac.id";
         }
 
         if ($isAssistant) {
-            $user->email = "{$user->npm}-assisten@iflab.gunadarma.id";
+            $user->email = "{$user->npm}-assisten@iflab.gunadarma.ac.id";
         }
     }
 
@@ -78,11 +78,11 @@ class UserObserver
         }
 
         if ($isStudent) {
-            $user->email = "{$user->npm}@iflab.gunadarma.id";
+            $user->email = "{$user->npm}@iflab.gunadarma.ac.id";
         }
 
         if ($isAssistant) {
-            $user->email = "{$user->npm}-assisten@iflab.gunadarma.id";
+            $user->email = "{$user->npm}-assisten@iflab.gunadarma.ac.id";
         }
     }
 }

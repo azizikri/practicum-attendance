@@ -36,7 +36,8 @@ class Subject extends Model
             ClassSubject::class,
             'subject_id',
             'class_subject_id',
-        'id');
+            'id'
+        );
     }
 
     public function currentScheduleId()
