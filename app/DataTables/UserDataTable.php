@@ -24,6 +24,8 @@ class UserDataTable extends DataTable
     public function dataTable(QueryBuilder $query) : EloquentDataTable
     {
         $isAssistantOrStudent = in_array($this->role, [UserRole::Assistant, UserRole::Student]);
+        $isStudent = $this->role == UserRole::Student;
+
 
         $columns = (new EloquentDataTable($query))
             ->addColumn('nama', function ($row) {
@@ -46,11 +48,13 @@ class UserDataTable extends DataTable
             })
                 ->filterColumn('npm', function ($query, $keyword) {
                     $query->where('npm', 'like', ["%{$keyword}%"]);
-                })
+                });
+        }
 
-                ->addColumn('kelas', function ($row) {
-                    return $row->class->name ?? 'non kelas' ;
-                })
+        if ($isStudent) {
+            $columns = $columns->addColumn('kelas', function ($row) {
+                return $row->class->name ?? 'non kelas';
+            })
                 ->filterColumn('kelas', function ($query, $keyword) {
                     $query->whereHas('class', function ($q) use ($keyword) {
                         $q->where('class.name', 'like', "%{$keyword}%");
@@ -124,6 +128,7 @@ class UserDataTable extends DataTable
     public function getColumns() : array
     {
         $isAssistantOrStudent = in_array($this->role, [UserRole::Assistant, UserRole::Student]);
+        $isStudent = $this->role == UserRole::Student;
 
         $columns = [
             Column::make('nama'),
@@ -132,6 +137,8 @@ class UserDataTable extends DataTable
 
         if ($isAssistantOrStudent) {
             $columns[] = Column::make('npm');
+        }
+        if ($isStudent){
             $columns[] = Column::make('kelas');
         }
 
