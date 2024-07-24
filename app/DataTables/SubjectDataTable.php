@@ -41,8 +41,8 @@ class SubjectDataTable extends DataTable
             ->addColumn('action', function ($row) {
                 return
                     '
-                    <div class="d-flex align-items-center">
-                        <a href="' . route('admin.subjects.edit', $row->id) . '" class="mx-3 text-info">
+                    <div class="gap-3 d-flex align-items-center">
+                        <a href="' . route('admin.subjects.edit', $row->id) . '" class="text-info">
                             <button type="button" class="btn btn-sm btn-warning btn-icon-text">
                                 Edit
                             </button>
@@ -50,11 +50,11 @@ class SubjectDataTable extends DataTable
 
                         <button
                             type="button"
-                            class="mr-2 btn btn-sm btn-danger btn-icon-text"
+                            class="btn btn-sm btn-danger btn-icon-text"
                             data-bs-toggle="modal"
                             data-bs-target="#deleteModal"
                             data-route="' . route('admin.subjects.destroy', $row->id) . '"
-                            data-title="Apakah anda ingin menghapus Mata Praktikum '. $row->name .'?">
+                            data-title="Apakah anda ingin menghapus Mata Praktikum ' . $row->name . '?">
                                 Hapus
                         </button>
                     </div>

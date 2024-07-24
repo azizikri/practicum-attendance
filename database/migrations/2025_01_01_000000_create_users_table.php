@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role', UserRole::getValues())->default(UserRole::Student);
+            $table->tinyInteger('is_change_password')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

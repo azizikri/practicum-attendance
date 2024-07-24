@@ -46,7 +46,7 @@
   - setting✅
     - acedmic year✅
   - Schedule show according to academic year✅
-    - classsubject schedule
+    - classsubject schedule ✅
   - attendance
 - Dashboard
   - Admin
@@ -54,8 +54,11 @@
   - assistant
     - all schedule assistant with button show qr
 
-- Make Attendance Logic
-  - assistant generate unique key hash (assistant name, class name, subject name, and schedule day and shift, random number)
-  - student scans, unique key refreshed
-- Make FE (QR)
-- Integrate FE to BE
+- Make Attendance Logic✅
+  - assistant generate unique key hash (assistant name, class name, subject name, and schedule day and shift, random number)✅
+  - qr valid for 60 secs✅
+
+- user
+  - when login for the first time change the password
+  - Make FE (QR)
+  - Integrate FE to BE

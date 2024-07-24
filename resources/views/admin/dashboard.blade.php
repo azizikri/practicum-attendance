@@ -7,92 +7,78 @@
 @section('content')
     <div class="flex-wrap d-flex justify-content-between align-items-center grid-margin">
         <div>
-            <h4 class="mb-3 mb-md-0">Selamat datang di Dasbor</h4>
+            <h4 class="mb-3 mb-md-0">Selamat datang, {{ auth()->user()->name }}</h4>
         </div>
     </div>
+    @can('isAdmin', auth()->user())
+        <div class="row">
+            <div class="col-12 col-xl-12 stretch-card">
+                <div class="row flex-grow-1">
+                    <div class="col-md-4 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-baseline">
+                                    <h6 class="mb-0 card-title">Praktikan</h6>
 
-    {{-- <div class="row">
-        <div class="col-12 col-xl-12 stretch-card">
-            <div class="row flex-grow-1">
-                <div class="col-md-4 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-baseline">
-                                <h6 class="mb-0 card-title">Pelanggan</h6>
-
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 col-md-12 col-xl-5">
+                                        <h3 class="mb-2">{{ $studentCount }}</h3>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="row">
-                                <div class="col-6 col-md-12 col-xl-5">
-                                    <h3 class="mb-2">{{ $userCount }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-4 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-baseline">
+                                    <h6 class="mb-0 card-title">Asisten</h6>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 col-md-12 col-xl-5">
+                                        <h3 class="mb-2">{{ $assistantCount }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-baseline">
+                                    <h6 class="mb-0 card-title">Kelas - Mata Praktikum</h6>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 col-md-12 col-xl-5">
+                                        <h3 class="mb-2">{{ $classSubjectCount }}</h3>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-baseline">
-                                <h6 class="mb-0 card-title">Produk</h6>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-6 col-md-12 col-xl-5">
-                                    <h3 class="mb-2">{{ $productCount }}</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-baseline">
-                                <h6 class="mb-0 card-title">Servis</h6>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-6 col-md-12 col-xl-5">
-                                    <h3 class="mb-2">{{ $serviceCount }}</h3>
-                                </div>
+            </div>
+        </div> <!-- row -->
+    @elsecan('isAssistant', auth()->user())
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <div class="table-responsive">
+                                {{ $dataTable->table() }}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-baseline">
-                                <h6 class="mb-0 card-title">Total Pemesanan</h6>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-6 col-md-12 col-xl-5">
-                                    <h3 class="mb-2">{{ $totalOrderCount }}</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-baseline">
-                                <h6 class="mb-0 card-title">Total Pemesanan Selesai</h6>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-6 col-md-12 col-xl-5">
-                                    <h3 class="mb-2">{{ $orderCompletedCount }}</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
-    </div> -- }} <!-- row -->
+    @endcan
+
+
 
     {{-- <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -212,6 +198,24 @@
     </div> <!-- row --> --}}
 @endsection
 
+<div class="modal fade" id="showQRModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-qr-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="gap-3 modal-body d-flex flex-column align-items-center justify-content-center">
+                <h3 id="timer">Valid for: <span id="countdown"></span> seconds</h3>
+                <div id="qr-code-container"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @push('plugin-scripts')
     <script src="{{ asset('admin-assets/assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('admin-assets/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.js') }}"></script>
@@ -219,5 +223,68 @@
 @endpush
 
 @push('custom-scripts')
-    <script src="{{ asset('admin-assets/assets/js/data-table.js') }}"></script>
+    {{ $dataTable->scripts() }}
+
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            var interval;
+
+            function startCountdown(route, container) {
+                var now = new Date();
+                var seconds = now.getSeconds();
+                var countdown = 60 - seconds;
+
+                $('#countdown').text(countdown);
+
+                interval = setInterval(function() {
+                    countdown--;
+                    $('#countdown').text(countdown);
+
+                    if (countdown <= 0) {
+                        updateQRCode(route, container);
+                        countdown = 60;
+                    }
+                }, 1000);
+            }
+
+            function updateQRCode(route, container) {
+                $.ajax({
+                    url: route,
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function(data) {
+                        if (data) {
+                            // Ensure the data is properly formatted as an SVG image
+                            $(container).empty();
+                            $(container).append(data);
+                        } else {
+                            console.error("No data received for QR code.");
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("AJAX Error: ", textStatus,
+                            errorThrown); // Debug: Log any AJAX errors
+                    }
+                });
+            }
+
+            $('#showQRModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var modalTitle = button.data('title');
+                $('#modal-qr-title').text(modalTitle);
+
+                updateQRCode(button.data('route'), '#qr-code-container');
+                startCountdown(button.data('route'), '#qr-code-container');
+            });
+
+            $('#showQRModal').on('hidden.bs.modal', function() {
+                clearInterval(interval);
+            });
+        });
+    </script>
 @endpush

@@ -2,7 +2,6 @@
 
 namespace App\DataTables;
 
-use App\Enums\UserRole;
 use App\Models\Schedule;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -13,7 +12,7 @@ use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
-class ScheduleDataTable extends DataTable
+class ScheduleDashboardDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -30,28 +29,6 @@ class ScheduleDataTable extends DataTable
             ->filterColumn('mata_praktikum', function ($query, $keyword) {
                 $query->where('class_subject_name', 'like', ["%{$keyword}%"]);
             })
-
-            ->addColumn('pj', function ($row) {
-                return $row->pj_name;
-            })
-            ->filterColumn('pj', function ($query, $keyword) {
-                $query->where('pj_name', 'like', ["%{$keyword}%"]);
-            })
-
-            ->addColumn('tahun_akademik', function ($row) {
-                return $row->academic_year;
-            })
-            ->filterColumn('tahun_akademik', function ($query, $keyword) {
-                $query->where('academic_year', 'like', ["%{$keyword}%"]);
-            })
-
-            ->addColumn('periode_akademik', function ($row) {
-                return strtoupper($row->academic_period);
-            })
-            ->filterColumn('periode_akademik', function ($query, $keyword) {
-                $query->where('academic_period', 'like', ["%{$keyword}%"]);
-            })
-
             ->addColumn('lokasi', function ($row) {
                 return $row->location;
             })
@@ -85,44 +62,15 @@ class ScheduleDataTable extends DataTable
             ->addColumn('action', function ($row) {
                 return
                     '
-                    <div class="gap-3 d-flex align-items-center">' .
-                    (in_array($this->role, [UserRole::Admin]) || auth()->id() == $row->pj_id ?
-                        '<div class="btn-group" role="group">
-                            <button id="btnGroupDrop1" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Atur Pertemuan
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" href="' . route('admin.schedules.end-session', $row->id) . '">Selesaikan Pertemuan</a>
-                                <button
-                                    class="dropdown-item"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#updateScheduleSessionModal"
-                                    data-route="' . route('admin.schedules.update-session', $row->id) . '"
-                                    data-title="Apakah anda ingin update sesi jadwal ' . $row->class_subject_name . '?">
-                                    Atur Pertemuan
-                                </button>
-                            </div>
-                        </div>' : '')
-                    . '<a href="' . route('admin.schedules.edit', $row->id) . '" class="text-info">
-                            <button type="button" class="btn btn-sm btn-warning btn-icon-text">
-                                Edit
-                            </button>
-                        </a>
-
-                        <a href="' . route('admin.schedules.show', $row->id) . '" class="text-info">
-                            <button type="button" class="btn btn-sm btn-info btn-icon-text">
-                                Details
-                            </button>
-                        </a>
-
+                    <div class="gap-3 d-flex align-items-center">
                         <button
                             type="button"
-                            class="btn btn-sm btn-danger btn-icon-text"
+                            class="btn btn-sm btn-info btn-icon-text"
                             data-bs-toggle="modal"
-                            data-bs-target="#deleteModal"
-                            data-route="' . route('admin.schedules.destroy', $row->id) . '"
-                            data-title="Apakah anda ingin menghapus jadwal ' . $row->name . '?">
-                                Hapus
+                            data-bs-target="#showQRModal"
+                            data-route="' . route('admin.attendances.create', $row->id) . '"
+                            data-title="QR Code ' . $row->class_subject_name . '">
+                                Tunjukkan QR
                         </button>
                     </div>
                 ';
@@ -139,7 +87,14 @@ class ScheduleDataTable extends DataTable
      */
     public function query(Schedule $model) : QueryBuilder
     {
-        return $model->newQuery()->where('academic_year', settings()->get('academic_year'))->where('academic_period', settings()->get('academic_period'))->orderBy('academic_period');
+        return $model->newQuery()
+            ->where('academic_year', settings()->get('academic_year'))
+            ->where('academic_period', settings()->get('academic_period'))
+            ->whereHas('assistants', function ($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->orWhere('pj_id', auth()->id())
+            ->orderBy('academic_period');
     }
 
     /**
@@ -171,9 +126,6 @@ class ScheduleDataTable extends DataTable
     {
         return [
             Column::make('mata_praktikum'),
-            Column::make('pj'),
-            Column::make('tahun_akademik'),
-            Column::make('periode_akademik'),
             Column::make('lokasi'),
             Column::make('hari'),
             Column::make('shift'),

@@ -27,15 +27,23 @@ class AttendanceController extends Controller
      */
     public function create(Schedule $schedule)
     {
-        if (in_array(auth()->user()->role, [UserRole::Admin, UserRole::Assistant])) {
+        if (! in_array(auth()->user()->role, [UserRole::Admin, UserRole::Assistant])) {
             return response(['error' => 'User ini bukan asisten/admin'], 403);
+            // return abort(404);
+        }
+
+        if ((! $schedule->whereHas('assistants', function ($query) {
+            $query->where('user_id', auth()->id());
+        }) && ! $schedule->pj_id == auth()->id()) || auth()->user()->role == UserRole::Admin) {
+            return response(['error' => 'User ini bukan asisten/admin dari jadwal ini'], 403);
+            // return abort(404);
         }
 
         $token = TokenHelper::generateToken();
-        $qrCode = QrCode::size(200)->generate(route('admin.attendances.store', ['token' => $token, 'assistant' => auth()->id(), 'schedule' => $schedule->id]));
+        $qrCode = QrCode::size(300)->generate(route('attendances.store', ['token' => $token, 'assistant' => auth()->id(), 'schedule' => $schedule->id]));
 
-        // return response($qrCode)->header('Content-Type', 'image/svg+xml');
-        return response(['route' => route('attendances.store', ['token' => $token, 'assistant' => auth()->id(), 'schedule' => $schedule->id])]);
+        return response($qrCode)->header('Content-Type', 'image/svg+html');
+        // return response(['route' => route('attendances.store', ['token' => $token, 'assistant' => auth()->id(), 'schedule' => $schedule->id])]);
     }
     /**
      * Remove the specified resource from storage.

@@ -14,6 +14,10 @@ use App\Http\Controllers\Admin\AjaxDataTableController;
 
 Route::middleware(['auth', 'user-access:admin,assistant'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
+    Route::group(['prefix' => 'attendances', 'as' => 'attendances.'], function () {
+        Route::get('/create/{schedule}', [AttendanceController::class, 'create'])->name('create');
+    });
+
     Route::middleware(['user-access:admin'])->group(function () {
         Route::group(['prefix' => 'admins', 'as' => 'admins.'], function () {
             Route::get('/', [AdminController::class, 'index'])->name('index');
@@ -35,8 +39,10 @@ Route::middleware(['auth', 'user-access:admin,assistant'])->group(function () {
 
         Route::group(['prefix' => 'students', 'as' => 'students.'], function () {
             Route::get('/', [StudentController::class, 'index'])->name('index');
+            Route::get('/end-year', [StudentController::class, 'endYear'])->name('end-year');
             Route::get('/create', [StudentController::class, 'create'])->name('create');
             Route::post('/', [StudentController::class, 'store'])->name('store');
+            Route::post('/import', [StudentController::class, 'import'])->name('import');
             Route::get('/{user}/edit', [StudentController::class, 'edit'])->name('edit');
             Route::patch('/{user}', [StudentController::class, 'update'])->name('update');
             Route::delete('/{user}', [StudentController::class, 'destroy'])->name('destroy');
@@ -76,14 +82,12 @@ Route::middleware(['auth', 'user-access:admin,assistant'])->group(function () {
             Route::patch('/{schedule}', [ScheduleController::class, 'update'])->name('update');
             Route::patch('/{schedule}', [ScheduleController::class, 'updateSession'])->name('update-session');
             Route::delete('/{schedule}', [ScheduleController::class, 'destroy'])->name('destroy');
-
             Route::patch('/{schedule}/assistants/store', [ScheduleController::class, 'addAssistants'])->name('assistants.store');
             Route::delete('/{schedule}/assistants/{user}/delete', [ScheduleController::class, 'deleteAssistant'])->name('assistants.delete');
         });
 
-        Route::group(['prefix' => 'attendances', 'as' => 'attendances.'], function(){
+        Route::group(['prefix' => 'attendances', 'as' => 'attendances.'], function () {
             Route::get('/', [AttendanceController::class, 'index'])->name('index');
-            Route::get('/create/{schedule}', [AttendanceController::class, 'create'])->name('create');
             Route::delete('/{attendance}', [AttendanceController::class, 'destroy'])->name('destroy');
         });
 

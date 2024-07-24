@@ -30,12 +30,16 @@ class ClassDataTable extends DataTable
                 $query->where('name', 'like', ["%{$keyword}%"]);
             })
 
+            ->addColumn('jumlah_mahasiswa', function ($row) {
+                return $row->students_count;
+            })
+
 
             ->addColumn('action', function ($row) {
                 return
                     '
-                    <div class="d-flex align-items-center">
-                        <a href="' . route('admin.classes.show', $row->id) . '" class="mx-3 text-info">
+                    <div class="gap-3 d-flex align-items-center">
+                        <a href="' . route('admin.classes.show', $row->id) . '" class="text-info">
                             <button type="button" class="btn btn-sm btn-info btn-icon-text">
                                 Details
                             </button>
@@ -49,11 +53,11 @@ class ClassDataTable extends DataTable
 
                         <button
                             type="button"
-                            class="mr-2 btn btn-sm btn-danger btn-icon-text"
+                            class="btn btn-sm btn-danger btn-icon-text"
                             data-bs-toggle="modal"
                             data-bs-target="#deleteModal"
                             data-route="' . route('admin.classes.destroy', $row->id) . '"
-                            data-title="Apakah anda ingin menghapus kelas '. $row->name .'?">
+                            data-title="Apakah anda ingin menghapus kelas ' . $row->name . '?">
                                 Hapus
                         </button>
                     </div>
@@ -71,7 +75,7 @@ class ClassDataTable extends DataTable
      */
     public function query(ClassModel $model) : QueryBuilder
     {
-        return $model->newQuery()->orderBy('name');
+        return $model->newQuery()->withCount(['students'])->orderBy('name');
     }
 
     /**
@@ -103,6 +107,7 @@ class ClassDataTable extends DataTable
     {
         return [
             Column::make('nama'),
+            Column::make('jumlah_mahasiswa'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

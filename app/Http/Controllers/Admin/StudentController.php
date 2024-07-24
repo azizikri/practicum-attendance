@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use App\Enums\UserRole;
 use App\Models\ClassModel;
+use Illuminate\Http\Request;
+use App\Imports\StudentImport;
 use App\DataTables\UserDataTable;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Admin\UserRequest;
@@ -74,5 +77,68 @@ class StudentController extends Controller
         $user->delete();
 
         return redirect()->route('admin.students.index')->with('success', 'Praktikan berhasil dihapus');
+    }
+
+    public function import(Request $request)
+    {
+        set_time_limit(500);
+        $request->validate([
+            'file_sheet' => ['required', 'file', 'mimes:csv,xlsx'],
+        ]);
+
+        $import = new StudentImport();
+        $import->import($request->file('file_sheet'));
+
+        if ($import->failures) {
+            return back()->with('success', 'Data berhasil diimport')->withFailures($import->failures);
+        }
+
+        return back()->with('success', 'Data berhasil diimport');
+    }
+
+    public function endYear()
+    {
+        set_time_limit(500);
+        // Define the final year class prefix
+        $finalYearPrefix = '4IA';
+
+        // Start a transaction
+        DB::transaction(function () use ($finalYearPrefix) {
+            // Chunk through users and update their classes
+            User::whereRole(UserRole::Student)->whereHas('class')
+                ->chunk(1000, function ($users) use ($finalYearPrefix) {
+                    $updates = [];
+                    $finalYearUsers = [];
+
+                    foreach ($users as $user) {
+                        $class = $user->class;
+                        $currentYear = (int) $class->name[0]; // Assuming class name starts with the year number
+                        $newYear = $currentYear + 1;
+                        $newClassName = $newYear . substr($class->name, 1);
+
+                        if (strpos($class->name, $finalYearPrefix) === 0) {
+                            $finalYearUsers[] = $user->id;
+                        } else {
+                            // Find or create the new class
+                            $newClass = ClassModel::where('name', $newClassName)->first();
+
+                            // Add update to batch
+                            $updates[$user->id] = ['class_id' => $newClass->id];
+                        }
+                    }
+
+                    // Perform bulk update
+                    foreach ($updates as $id => $data) {
+                        User::where('id', $id)->update($data);
+                    }
+
+                    // Set class_id to null for final year users
+                    if (! empty($finalYearUsers)) {
+                        User::whereIn('id', $finalYearUsers)->update(['class_id' => null]);
+                    }
+                });
+        });
+
+        return redirect()->route('admin.students.index')->with('success', 'Praktikan berhasil di update!');
     }
 }

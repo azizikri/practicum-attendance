@@ -55,14 +55,14 @@ class AttendanceDataTable extends DataTable
             ->addColumn('action', function ($row) {
                 return
                     '
-                    <div class="d-flex align-items-center">
+                    <div class="gap-3 d-flex align-items-center">
                         <button
                             type="button"
-                            class="mr-2 btn btn-sm btn-danger btn-icon-text"
+                            class="btn btn-sm btn-danger btn-icon-text"
                             data-bs-toggle="modal"
                             data-bs-target="#deleteModal"
                             data-route="' . route('admin.attendances.destroy', $row->id) . '"
-                            data-title="Apakah anda ingin menghapus absen '. $row->student_name .' di kelas '. $row->schedule_class_subject_name .'?">
+                            data-title="Apakah anda ingin menghapus absen ' . $row->student_name . ' di kelas ' . $row->schedule_class_subject_name .'">
                                 Hapus
                         </button>
                     </div>
@@ -126,7 +126,7 @@ class AttendanceDataTable extends DataTable
     /**
      * Get the filename for export.
      */
-    protected function filename(): string
+    protected function filename() : string
     {
         return 'Attendance_' . date('YmdHis');
     }

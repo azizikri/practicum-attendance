@@ -46,14 +46,23 @@ class UserDataTable extends DataTable
             })
                 ->filterColumn('npm', function ($query, $keyword) {
                     $query->where('npm', 'like', ["%{$keyword}%"]);
+                })
+
+                ->addColumn('kelas', function ($row) {
+                    return $row->class->name ?? 'non kelas' ;
+                })
+                ->filterColumn('kelas', function ($query, $keyword) {
+                    $query->whereHas('class', function ($q) use ($keyword) {
+                        $q->where('class.name', 'like', "%{$keyword}%");
+                    });
                 });
         }
 
         $columns->addColumn('action', function ($row) {
             return
                 '
-                <div class="d-flex align-items-center">
-                    <a href="' . route('admin.' . $this->role . 's.edit', $row->id) . '" class="mx-3 text-info">
+                <div class="gap-3 d-flex align-items-center">
+                    <a href="' . route('admin.' . $this->role . 's.edit', $row->id) . '" class="text-info">
                         <button type="button" class="mr-3 btn btn-sm btn-warning btn-icon-text">
                             Edit
                         </button>
@@ -61,11 +70,11 @@ class UserDataTable extends DataTable
 
                     <button
                         type="button"
-                            class="mr-2 btn btn-sm btn-danger btn-icon-text"
+                            class="btn btn-sm btn-danger btn-icon-text"
                             data-bs-toggle="modal"
                             data-bs-target="#deleteModal"
                             data-route="' . route('admin.' . $this->role . 's.destroy', $row->id) . '"
-                            data-title="Apakah anda ingin menghapus '. $row->name .'?">
+                            data-title="Apakah anda ingin menghapus ' . $row->name . '?">
                         Hapus
                     </button>
                 </div>
@@ -123,6 +132,7 @@ class UserDataTable extends DataTable
 
         if ($isAssistantOrStudent) {
             $columns[] = Column::make('npm');
+            $columns[] = Column::make('kelas');
         }
 
         $columns[] = Column::computed('action')

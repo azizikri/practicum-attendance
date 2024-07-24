@@ -38,14 +38,14 @@ class ClassStudentsDataTable extends DataTable
             ->addColumn('action', function ($row) {
                 return
                     '
-                    <div class="d-flex align-items-center">
+                    <div class="gap-3 d-flex align-items-center">
                         <button
                             type="button"
-                            class="mr-2 btn btn-sm btn-danger btn-icon-text"
+                            class="btn btn-sm btn-danger btn-icon-text"
                             data-bs-toggle="modal"
                             data-bs-target="#deleteModal"
-                            data-route="' . route('admin.classes.students.delete', $row->id)  . '"
-                            data-title="Apakah anda ingin menghapus praktikan'. $row->name .' dari kelas '. $this->class->name.'?">
+                            data-route="' . route('admin.classes.students.delete', $row->id) . '"
+                            data-title="Apakah anda ingin menghapus praktikan' . $row->name . ' dari kelas ' . $this->class->name . '?">
                                 Hapus
                         </button>
                     </div>

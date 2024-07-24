@@ -32,20 +32,20 @@ class ClassSubjectsDataTable extends DataTable
             ->addColumn('action', function ($row) {
                 return
                     '
-                    <div class="d-flex align-items-center">'.
-                        ($row->currentScheduleId() != null ?
-                        '<a href="' . route('admin.schedules.show', $row->currentScheduleId()) . '" class="mx-3 text-info">
+                    <div class="gap-3 d-flex align-items-center">' .
+                    ($row->currentScheduleId() != null ?
+                        '<a href="' . route('admin.schedules.show', $row->currentScheduleId()) . '" class="text-info">
                             <button type="button" class="btn btn-sm btn-info btn-icon-text">
                                 Details
                             </button>
                         </a>' : '')
-                        .'<button
+                    . '<button
                             type="button"
-                            class="mr-2 btn btn-sm btn-danger btn-icon-text"
+                            class="btn btn-sm btn-danger btn-icon-text"
                             data-bs-toggle="modal"
                             data-bs-target="#deleteModal"
                             data-route="' . route('admin.classes.subjects.delete', [$this->class->id, $row->id]) . '"
-                            data-title="Apakah anda ingin menghapus mata praktikum '. $row->name .' dari kelas '. $this->class->name.'?">
+                            data-title="Apakah anda ingin menghapus mata praktikum ' . $row->name . ' dari kelas ' . $this->class->name . '?">
                                 Hapus
                         </button>
                     </div>
@@ -63,7 +63,7 @@ class ClassSubjectsDataTable extends DataTable
      */
     public function query(Subject $model) : QueryBuilder
     {
-        return $model->newQuery()->whereHas('classes', function($q){
+        return $model->newQuery()->whereHas('classes', function ($q) {
             $q->where('classes.id', $this->class->id);
         })->latest();
     }
