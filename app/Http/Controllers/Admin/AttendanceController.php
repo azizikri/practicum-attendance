@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
 use App\Enums\UserRole;
 use App\Models\Schedule;
 use App\Models\Attendance;
 use App\Helpers\TokenHelper;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\DataTables\AttendanceDataTable;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -27,14 +25,17 @@ class AttendanceController extends Controller
      */
     public function create(Schedule $schedule)
     {
-        if (! in_array(auth()->user()->role, [UserRole::Admin, UserRole::Assistant])) {
+        /** @var \App\Models\User $user **/
+        $user = auth()->user();
+
+        if (! $user->isRoles( [UserRole::Admin, UserRole::Assistant])) {
             return response(['error' => 'User ini bukan asisten/admin'], 403);
             // return abort(404);
         }
 
         if ((! $schedule->whereHas('assistants', function ($query) {
             $query->where('user_id', auth()->id());
-        }) && ! $schedule->pj_id == auth()->id()) || auth()->user()->role == UserRole::Admin) {
+        }) && ! $schedule->pj_id == auth()->id()) || $user->isAdmin()) {
             return response(['error' => 'User ini bukan asisten/admin dari jadwal ini'], 403);
             // return abort(404);
         }

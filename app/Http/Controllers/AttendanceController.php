@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Enums\UserRole;
 use App\Models\Schedule;
 use App\Models\Attendance;
 use App\Helpers\TokenHelper;
@@ -12,7 +11,10 @@ class AttendanceController extends Controller
 {
     public function store(string $token, User $assistant, Schedule $schedule)
     {
-        if (auth()->user()->role != UserRole::Student) {
+        /** @var \App\Models\User $user **/
+        $user = auth()->user();
+
+        if (! $user->isStudent()) {
             return back()->with('error', 'Kamu bukan praktikan!');
         }
 

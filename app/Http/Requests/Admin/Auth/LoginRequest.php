@@ -50,7 +50,10 @@ class LoginRequest extends FormRequest
             ]);
         }
 
-        if (! in_array(Auth::user()->role, [UserRole::Admin, UserRole::Assistant])) {
+        /** @var \App\Models\User $user **/
+        $user = auth()->user();
+
+        if (! $user->isRoles([UserRole::Admin, UserRole::Assistant])) {
             Auth::logout();
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),

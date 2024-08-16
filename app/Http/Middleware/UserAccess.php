@@ -15,11 +15,14 @@ class UserAccess
      */
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        if (in_array(auth()->user()->role, $roles)) {
+        /** @var \App\Models\User $user **/
+        $user = auth()->user();
+
+        if ($user->isRoles($roles)) {
             return $next($request);
         }
 
-        if (in_array(auth()->user()->role, [UserRole::Admin, UserRole::Assistant])){
+        if ($user->isRoles([UserRole::Admin, UserRole::Assistant])){
             return redirect()->route('admin.dashboard');
         } else {
             return redirect()->route('dashboard');

@@ -11,6 +11,7 @@ use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 
 class ScheduleDashboardDataTable extends DataTable
 {
@@ -87,14 +88,23 @@ class ScheduleDashboardDataTable extends DataTable
      */
     public function query(Schedule $model) : QueryBuilder
     {
-        return $model->newQuery()
+        /** @var \App\Models\User $user **/
+        $user = auth()->user();
+
+        $query = $model->newQuery()
             ->where('academic_year', settings()->get('academic_year'))
-            ->where('academic_period', settings()->get('academic_period'))
-            ->whereHas('assistants', function ($query) {
-                $query->where('user_id', auth()->id());
-            })
-            ->orWhere('pj_id', auth()->id())
-            ->orderBy('academic_period');
+            ->where('academic_period', settings()->get('academic_period'));
+
+
+        if (! $user->isAdmin()) {
+            $query
+                ->whereHas('assistants', function ($query) {
+                    $query->where('user_id', auth()->id());
+                })
+                ->orWhere('pj_id', auth()->id());
+        }
+
+        return $query->orderBy('academic_period');
     }
 
     /**

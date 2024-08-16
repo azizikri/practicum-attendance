@@ -50,7 +50,10 @@ class LoginRequest extends FormRequest
             ]);
         }
 
-        if (Auth::user()->role !== UserRole::Student) {
+         /** @var \App\Models\User $user **/
+        $user = auth()->user();
+
+        if (! $user->isStudent()) {
             Auth::logout();
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),

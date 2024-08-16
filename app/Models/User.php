@@ -70,4 +70,24 @@ class User extends Authenticatable
     {
         return self::whereRole(UserRole::Admin)->count() > 1;
     }
+
+    public function isAdmin() : bool
+    {
+        return $this->role == UserRole::Admin;
+    }
+
+    public function isAssistant() : bool
+    {
+        return $this->role == UserRole::Assistant;
+    }
+
+    public function isStudent() : bool
+    {
+        return $this->role == UserRole::Student;
+    }
+
+    public function isRoles($roles) : bool
+    {
+        return in_array($this->role, $roles);
+    }
 }
