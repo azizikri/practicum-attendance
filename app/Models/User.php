@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 #[ObservedBy([UserObserver::class])]
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, \Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
     /**
      * The attributes that are mass assignable.
@@ -61,10 +61,18 @@ class User extends Authenticatable
         return $this->belongsTo(ClassModel::class, 'class_id');
     }
 
-    public function schedules() : BelongsToMany
+    public function schedules()
     {
-        return $this->belongsToMany(Schedule::class);
+        return $this->hasManyThrough(
+            Schedule::class,
+            ClassSubject::class,
+            'class_id', // Foreign key on ClassSubject table
+            'class_subject_id', // Foreign key on Schedule table
+            'class_id', // Local key on User table
+            'id' // Local key on ClassSubject table
+        );
     }
+
 
     public static function checkAdminCount() : bool
     {

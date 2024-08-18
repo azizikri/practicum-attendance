@@ -57,7 +57,7 @@ class UserDataTable extends DataTable
             })
                 ->filterColumn('kelas', function ($query, $keyword) {
                     $query->whereHas('class', function ($q) use ($keyword) {
-                        $q->where('class.name', 'like', "%{$keyword}%");
+                        $q->where('name', 'like', "%{$keyword}%");
                     });
                 });
         }

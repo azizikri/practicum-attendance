@@ -28,16 +28,14 @@ class AttendanceController extends Controller
         /** @var \App\Models\User $user **/
         $user = auth()->user();
 
-        if (! $user->isRoles( [UserRole::Admin, UserRole::Assistant])) {
+        if (! $user->isRoles([UserRole::Admin, UserRole::Assistant])) {
             return response(['error' => 'User ini bukan asisten/admin'], 403);
-            // return abort(404);
         }
 
-        if ((! $schedule->whereHas('assistants', function ($query) {
+        if (! $schedule->whereHas('assistants', function ($query) {
             $query->where('user_id', auth()->id());
-        }) && ! $schedule->pj_id == auth()->id()) || $user->isAdmin()) {
+        }) && ! $schedule->pj_id == auth()->id() && ! $user->isAdmin()) {
             return response(['error' => 'User ini bukan asisten/admin dari jadwal ini'], 403);
-            // return abort(404);
         }
 
         $token = TokenHelper::generateToken();

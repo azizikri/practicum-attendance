@@ -37,12 +37,12 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="tandem" class="form-label">Tandem</label>
-                            <select class="form-control select-tandem" id="tandem" name="tandem_id">
-                                <option selected disabled hidden>Pilih Tandem</option>
-                                @forelse ($tandems as $tandem)
-                                    <option @selected($tandem->id == $tandemVote->tandem->id || $tandem->id == old('tandem')) value="{{ $tandem->id }}">
-                                        {{ $tandem->name }}</option>
+                            <label for="class" class="form-label">Class</label>
+                            <select class="form-control select-class" id="class" name="class_id">
+                                <option selected disabled hidden>Pilih Class</option>
+                                @forelse ($classes as $class)
+                                    <option @selected($class->id == $user->class->id || $class->id == old('class')) value="{{ $class->id }}">
+                                        {{ $class->name }}</option>
                                 @empty
                                     <option disabled>No data!</option>
                                 @endforelse
@@ -75,7 +75,7 @@
 @push('custom-scripts')
     <script>
         $(document).ready(function() {
-            $('.select-tandem').select2();
+            $('.select-class').select2();
         });
     </script>
 @endpush

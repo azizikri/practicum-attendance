@@ -41,6 +41,7 @@ Route::middleware(['auth', 'user-access:admin,assistant'])->group(function () {
             Route::get('/', [StudentController::class, 'index'])->name('index');
             Route::get('/end-year', [StudentController::class, 'endYear'])->name('end-year');
             Route::get('/create', [StudentController::class, 'create'])->name('create');
+            Route::get('/{user}', [StudentController::class, 'show'])->name('show');
             Route::post('/', [StudentController::class, 'store'])->name('store');
             Route::post('/import', [StudentController::class, 'import'])->name('import');
             Route::get('/{user}/edit', [StudentController::class, 'edit'])->name('edit');
@@ -75,15 +76,14 @@ Route::middleware(['auth', 'user-access:admin,assistant'])->group(function () {
         Route::group(['prefix' => 'schedules', 'as' => 'schedules.'], function () {
             Route::get('/', [ScheduleController::class, 'index'])->name('index');
             Route::get('/create', [ScheduleController::class, 'create'])->name('create');
-            Route::get('/{schedule}', [ScheduleController::class, 'show'])->name('show');
-            Route::get('/{schedule}/end-session', [ScheduleController::class, 'endSession'])->name('end-session');
+            // Route::get('/{schedule}', [ScheduleController::class, 'show'])->name('show');
             Route::post('/', [ScheduleController::class, 'store'])->name('store');
             Route::get('/{schedule}/edit', [ScheduleController::class, 'edit'])->name('edit');
-            Route::patch('/{schedule}', [ScheduleController::class, 'update'])->name('update');
-            Route::patch('/{schedule}', [ScheduleController::class, 'updateSession'])->name('update-session');
-            Route::delete('/{schedule}', [ScheduleController::class, 'destroy'])->name('destroy');
+            Route::patch('/{schedule}/update-session', [ScheduleController::class, 'updateSession'])->name('update-session');
             Route::patch('/{schedule}/assistants/store', [ScheduleController::class, 'addAssistants'])->name('assistants.store');
             Route::delete('/{schedule}/assistants/{user}/delete', [ScheduleController::class, 'deleteAssistant'])->name('assistants.delete');
+            Route::patch('/{schedule}', [ScheduleController::class, 'update'])->name('update');
+            Route::delete('/{schedule}', [ScheduleController::class, 'destroy'])->name('destroy');
         });
 
         Route::group(['prefix' => 'attendances', 'as' => 'attendances.'], function () {
@@ -102,6 +102,11 @@ Route::middleware(['auth', 'user-access:admin,assistant'])->group(function () {
         });
 
 
+    });
+
+    Route::group(['prefix' => 'schedules', 'as' => 'schedules.'], function () {
+        Route::get('/{schedule}/end-session', [ScheduleController::class, 'endSession'])->name('end-session');
+        Route::get('/{schedule}', [ScheduleController::class, 'show'])->name('show');
     });
 });
 

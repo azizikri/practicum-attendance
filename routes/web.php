@@ -6,10 +6,14 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Middleware\IsChangePassword;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::middleware(['auth', 'user-access:student', 'is-change-password'])->group(function () {
+
+    Route::get('/scan-qr', function () {
+        return view('scan-qr');
+    })->middleware(['auth', 'verified'])->name('scan-qr');
 
     Route::get('/dashboard', function () {
         return view('dashboard');

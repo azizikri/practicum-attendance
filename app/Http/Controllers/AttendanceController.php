@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Schedule;
 use App\Models\Attendance;
 use App\Helpers\TokenHelper;
+use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
 {
@@ -13,16 +14,19 @@ class AttendanceController extends Controller
     {
         /** @var \App\Models\User $user **/
         $user = auth()->user();
-
         if (! $user->isStudent()) {
             return back()->with('error', 'Kamu bukan praktikan!');
         }
 
+        $isStudentInClass = $user->whereBelongsTo($schedule->classSubject->class)->exist();
+        if(!$isStudentInClass){
+            return back()->with('error', 'Kamu bukan murid dari kelas ini!');
+        }
+
         $isExist = Attendance::where('schedule_id', $schedule->id)
-            ->where('student_id', auth()->id())
+            ->where('student_id', Auth::id())
             ->where('session', $schedule->session)
             ->exists();
-
         if ($isExist){
             return redirect()->route('dashboard')->with('error', 'Presensi kamu sudah tersimpan!');
         }
@@ -31,12 +35,12 @@ class AttendanceController extends Controller
             Attendance::create([
                 'schedule_id' => $schedule->id,
                 'assistant_id' => $assistant->id,
-                'student_id' => auth()->id(),
+                'student_id' => Auth::id(),
                 'schedule_class_subject_name' => $schedule->class_subject_name,
                 'session' => $schedule->session,
                 'assistant_name' => $assistant->name,
-                'student_name' => auth()->user()->name,
-                'student_npm' => auth()->user()->npm,
+                'student_name' => Auth::user()->name,
+                'student_npm' => Auth::user()->npm,
             ]);
 
             return redirect()->route('dashboard')->with('success', 'Presensi berhasil di simpan!');

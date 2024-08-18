@@ -94,12 +94,11 @@ class AttendanceDataTable extends DataTable
             ->setTableId('attedance-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            //->dom('Bfrtip')
+            ->layout(['Bfrtip'])
             ->orderBy(1)
             ->selectStyleSingle()
             ->buttons([
-
-                Button::make('reload')
+                Button::make('csv'),
             ]);
     }
 
