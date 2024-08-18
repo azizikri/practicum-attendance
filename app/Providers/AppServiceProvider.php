@@ -22,6 +22,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Gate::define('viewPulse', function (User $user) {
+            return $user->isAdmin();
+        });
+        
         Gate::policy(User::class, UserPolicy::class);
     }
 }

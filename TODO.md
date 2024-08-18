@@ -56,7 +56,14 @@
   - assistant generate unique key hash (assistant name, class name, subject name, and schedule day and shift, random number)✅
   - qr valid for 60 secs✅
 
+- yang belom
+  - details user (absen)
+  - export attendance in schedule details
+  - show all schedule,
+  - add session and show button in dahsboard
+
 - user
+  - first page langsung login
   - when login for the first time change the password✅
   - Make FE (QR)
   - Integrate FE to BE
