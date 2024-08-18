@@ -51,14 +51,6 @@
                 @method('patch')
                 <div class="modal-body" id="modal-body-update-session">
                     <select class="form-control select-session" name="session" id="session">
-                        <option value="1">Pertemuan 1</option>
-                        <option value="2">Pertemuan 2</option>
-                        <option value="3">Pertemuan 3</option>
-                        <option value="4">Pertemuan 4</option>
-                        <option value="5">Pertemuan 5</option>
-                        <option value="6">Pertemuan 6</option>
-                        <option value="7">Pertemuan 7</option>
-                        <option value="8">Pertemuan 8</option>
                     </select>
                 </div>
                 <div class="modal-footer">
@@ -85,11 +77,20 @@
                 var button = $(event.relatedTarget);
                 var route = button.data('route');
                 var modalTitle = button.data('title');
-                console.log(modalTitle)
+                var totalSession = button.data('total-session');
+
                 $('#modal-update-title').text(modalTitle);
                 $('#update-data').attr('action', route);
 
+                var selectSession = $('#session');
+                selectSession.empty(); // Clear existing options
+
+                for (var i = 1; i <= totalSession; i++) {
+                    selectSession.append(new Option('Pertemuan ' + i, i));
+                }
+
             });
+            
             $('.select-session').select2({
                 dropdownParent: $('#updateScheduleSessionModal'),
                 width: '100%'

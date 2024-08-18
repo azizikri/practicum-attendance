@@ -73,6 +73,13 @@ class ScheduleDataTable extends DataTable
                 $query->where('shift', 'like', ["%{$keyword}%"]);
             })
 
+            ->addColumn('total_pertemuan', function ($row) {
+                return $row->total_session;
+            })
+            ->filterColumn('total_pertemuan', function ($query, $keyword) {
+                $query->where('total_session', 'like', ["%{$keyword}%"]);
+            })
+
             ->addColumn('pertemuan', function ($row) {
                 return $row->session;
             })
@@ -98,6 +105,7 @@ class ScheduleDataTable extends DataTable
                                     data-bs-toggle="modal"
                                     data-bs-target="#updateScheduleSessionModal"
                                     data-route="' . route('admin.schedules.update-session', $row->id) . '"
+                                    data-total-session="'. $row->total_session .'"
                                     data-title="Apakah anda ingin update sesi jadwal ' . $row->class_subject_name . '?">
                                     Atur Pertemuan
                                 </button>

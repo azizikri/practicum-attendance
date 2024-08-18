@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Rules\CheckScheduleSession;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,7 +24,7 @@ class UpdateScheduleSession extends FormRequest
     public function rules() : array
     {
         return [
-            'session' => ['required', 'in:1,2,3,4,5,6,7,8']
+            'session' => ['required', 'numeric', new CheckScheduleSession($this->schedule)]
         ];
     }
 }

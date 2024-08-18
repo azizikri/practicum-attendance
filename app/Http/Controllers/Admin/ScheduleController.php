@@ -145,7 +145,14 @@ class ScheduleController extends Controller
 
     public function endSession(Schedule $schedule)
     {
-        if ($schedule->session >= 8){
+        /** @var \App\Models\User $user **/
+        $user = auth()->user();
+
+        if ($schedule->pj_id != $user->id && $user->isAdmin()){
+            return back()->with('error', 'Selain PJ dilarang mengedit');
+        }
+
+        if ($schedule->session >= $schedule->total_session){
             return back()->with('error', 'Jadwal sudah mencapai ujian');
         }
 

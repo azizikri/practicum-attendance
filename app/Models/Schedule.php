@@ -24,7 +24,8 @@ class Schedule extends Model
         'location',
         'day',
         'shift',
-        'session'
+        'session',
+        'total_session'
     ];
 
     public function classSubject()
@@ -36,6 +37,29 @@ class Schedule extends Model
     {
         return $this->hasMany(Attendance::class);
     }
+
+    public function studentAttendances(User $user)
+    {
+        return $this->attendances()->where('user_id', $user->id)->get();
+    }
+
+    public function checkAttendances(User $user)
+    {
+        $attendedSessions = $this->attendances()
+            ->where('student_id', $user->id)
+            ->whereBetween('session', [1, $this->total_session]) // Assuming session values start from 1
+            ->pluck('session')
+            ->toArray();
+
+        $attendanceStatus = [];
+
+        for ($session = 1; $session <= $this->total_session; $session++) {
+            $attendanceStatus[$session] = in_array($session, $attendedSessions) ? "Hadir" : "Absen";
+        }
+
+        return $attendanceStatus;
+    }
+
 
     public function pj()
     {

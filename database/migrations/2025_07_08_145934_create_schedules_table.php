@@ -25,6 +25,7 @@ return new class extends Migration {
             $table->enum('location', ScheduleLocation::getValues());
             $table->enum('day', ScheduleDay::getValues());
             $table->enum('shift', ScheduleShift::getValues());
+            $table->smallInteger('total_session')->default(8);
             $table->smallInteger('session')->default(1);
             $table->timestamps();
         });

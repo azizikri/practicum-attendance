@@ -47,6 +47,7 @@ class ScheduleRequest extends FormRequest
             'location' => [$this->isMethod('POST') ? 'required' : 'sometimes', new EnumValue(ScheduleLocation::class)],
             'day' => [$this->isMethod('POST') ? 'required' : 'sometimes', new EnumValue(ScheduleDay::class)],
             'shift' => [$this->isMethod('POST') ? 'required' : 'sometimes', new EnumValue(ScheduleShift::class)],
+            'total_session' => [$this->isMethod('POST') ? 'required' : 'sometimes', 'numeric'],
         ];
     }
 }

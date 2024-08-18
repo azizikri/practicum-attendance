@@ -93,6 +93,12 @@
                             </select>
                         </div>
 
+                        <div class="mb-3">
+                            <label for="total_session" class="form-label">Jumlah Pertemuan</label>
+                            <input name="total_session" type="text" class="form-control" id="total_session" autocomplete="off"
+                                placeholder="Jumlah Pertemuan" value="{{ old('total_session') }}">
+                        </div>
+
                         <button type="submit" class="btn btn-primary me-2">Submit</button>
                         <a href="{{ route('admin.schedules.index') }}" class="btn btn-secondary">Cancel</a>
                     </form>
