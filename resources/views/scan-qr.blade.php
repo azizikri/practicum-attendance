@@ -23,7 +23,6 @@
         function qrScanner() {
             return {
                 scanner: null,
-                scannedData: '',
                 isScanning: true, // Add a flag to manage scanning state
                 startScanner() {
                     this.scanner = new Html5Qrcode("qr-reader");
@@ -65,37 +64,13 @@
                     }
                 },
                 handleScannedData(decodedText) {
-                    this.scannedData = decodedText;
-                    const url = new URL(decodedText);
-                    console.log(url);
-                    const routeName = '/attendances/mark/*/*/*';
-                    const routeRegex = new RegExp(routeName.replace(/\*/g, '[^/]+'));
+                    this.isScanning = false; // Disable scanning
+                    window.location.href = decodedText; // Redirect to the decoded URL
 
-                    if (routeRegex.test(url.pathname)) {
-                        // Perform the GET request to the route
-                        fetch(decodedText)
-                            .then(response => response.json())
-                            .then(data => {
-                                // Handle the response from the server
-                                if (data.success) {
-                                    alert('Attendance recorded successfully!');
-                                } else {
-                                    alert(`Error: ${data.error}`);
-                                }
-                                this.isScanning = false; // Disable scanning
-
-                                // Re-enable scanning after 2 seconds
-                                setTimeout(() => {
-                                    this.isScanning = true;
-                                }, 2000);
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                alert('Failed to record attendance.');
-                            });
-                    } else {
-                        alert('Invalid QR Code. Please scan a valid attendance QR code.');
-                    }
+                    // Re-enable scanning after 2 seconds
+                    setTimeout(() => {
+                        this.isScanning = true;
+                    }, 2000);
                 }
             }
         }
