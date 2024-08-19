@@ -42,7 +42,6 @@ class AttendanceController extends Controller
         $qrCode = QrCode::size(300)->generate(route('attendances.store', ['token' => $token, 'assistant' => auth()->id(), 'schedule' => $schedule->id]));
 
         return response($qrCode)->header('Content-Type', 'image/svg+html');
-        // return response(['route' => route('attendances.store', ['token' => $token, 'assistant' => auth()->id(), 'schedule' => $schedule->id])]);
     }
     /**
      * Remove the specified resource from storage.
