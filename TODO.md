@@ -57,13 +57,13 @@
   - qr valid for 60 secs✅
 
 - yang belom
-  - details user (absen)
+  - details user (absen)✅
   - export attendance in schedule details
   - show all schedule,
   - add session and show button in dahsboard
 
 - user
-  - first page langsung login
+  - first page langsung login✅
   - when login for the first time change the password✅
-  - Make FE (QR)
-  - Integrate FE to BE
+  - Make FE (QR)✅
+  - make kartu praktikum

@@ -48,12 +48,13 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-baseline">
-                                    <h6 class="mb-0 card-title">Kelas - Mata Praktikum</h6>
+                                    <h6 class="mb-0 card-title">Jadwal {{ settings()->get('academic_year') }} -
+                                        {{ settings()->get('academic_period') }} </h6>
 
                                 </div>
                                 <div class="row">
                                     <div class="col-6 col-md-12 col-xl-5">
-                                        <h3 class="mb-2">{{ $classSubjectCount }}</h3>
+                                        <h3 class="mb-2">{{ $scheduleCount }}</h3>
                                     </div>
                                 </div>
                             </div>
