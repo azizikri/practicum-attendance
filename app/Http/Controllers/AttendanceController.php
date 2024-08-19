@@ -18,7 +18,7 @@ class AttendanceController extends Controller
             return back()->with('error', 'Kamu bukan praktikan!');
         }
 
-        $isStudentInClass = $user->whereBelongsTo($schedule->class, 'class')->exist();
+        $isStudentInClass = $user->class->id == $schedule->class->id;
         if(!$isStudentInClass){
             return back()->with('error', 'Kamu bukan murid dari kelas ini!');
         }
