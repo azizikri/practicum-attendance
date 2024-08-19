@@ -24,10 +24,12 @@
             return {
                 scanner: null,
                 scannedData: '',
+                isScanning: true, // Add a flag to manage scanning state
                 startScanner() {
                     this.scanner = new Html5Qrcode("qr-reader");
-                    this.scanner.start(
-                        { facingMode: "environment" }, // Request for the environment-facing camera
+                    this.scanner.start({
+                            facingMode: "environment"
+                        }, // Request for the environment-facing camera
                         {
                             fps: 10,
                             qrbox: function(viewfinderWidth, viewfinderHeight) {
@@ -41,7 +43,9 @@
                             }
                         },
                         (decodedText, decodedResult) => {
-                            this.handleScannedData(decodedText);
+                            if (this.isScanning) { // Only handle if scanning is enabled
+                                this.handleScannedData(decodedText);
+                            }
                         },
                         (errorMessage) => {
                             console.error(errorMessage);
@@ -63,19 +67,27 @@
                 handleScannedData(decodedText) {
                     this.scannedData = decodedText;
                     const url = new URL(decodedText);
-                    console.log(url)
+                    console.log(url);
                     const routeName = '/attendances/mark/*/*/*';
-
-                    const routeRegex = new RegExp(routeName .replace(/\*/g, '[^/]+'));
+                    const routeRegex = new RegExp(routeName.replace(/\*/g, '[^/]+'));
 
                     if (routeRegex.test(url.pathname)) {
                         // Perform the GET request to the route
                         fetch(decodedText)
                             .then(response => response.json())
                             .then(data => {
-                                console.log('Attendance recorded:', data);
-                                alert('Attendance recorded successfully!');
-                                this.stopScanner(); // Optionally stop the scanner
+                                // Handle the response from the server
+                                if (data.success) {
+                                    alert('Attendance recorded successfully!');
+                                } else {
+                                    alert(`Error: ${data.error}`);
+                                }
+                                this.isScanning = false; // Disable scanning
+
+                                // Re-enable scanning after 2 seconds
+                                setTimeout(() => {
+                                    this.isScanning = true;
+                                }, 2000);
                             })
                             .catch(error => {
                                 console.error('Error:', error);

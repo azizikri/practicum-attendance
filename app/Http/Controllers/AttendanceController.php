@@ -45,7 +45,7 @@ class AttendanceController extends Controller
 
             return redirect()->route('dashboard')->with('success', 'Presensi berhasil di simpan!');
         } else {
-            return redirect()->route('dashboard')->with('error', 'QR sudah expired!');
+            return redirect()->route('scan-qr')->with('error', 'QR sudah expired!');
         }
     }
 }
