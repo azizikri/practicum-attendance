@@ -27,18 +27,11 @@ class AttendanceDataTable extends DataTable
     public function dataTable(QueryBuilder $query) : EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('kelas', function ($row) {
-                return $row->schedule_class_subject_name;
+            ->addColumn('pertemuan', function ($row) {
+                return $row->session;
             })
-            ->filterColumn('kelas', function ($query, $keyword) {
-                $query->where('schedule_class_subject_name', 'like', ["%{$keyword}%"]);
-            })
-
-            ->addColumn('asisten', function ($row) {
-                return $row->assistant_name;
-            })
-            ->filterColumn('asisten', function ($query, $keyword) {
-                $query->where('assistant_name', 'like', ["%{$keyword}%"]);
+            ->filterColumn('pertemuan', function ($query, $keyword) {
+                $query->where('session', 'like', ["%{$keyword}%"]);
             })
 
             ->addColumn('praktikan', function ($row) {
@@ -46,6 +39,13 @@ class AttendanceDataTable extends DataTable
             })
             ->filterColumn('praktikan', function ($query, $keyword) {
                 $query->where('student_name', 'like', ["%{$keyword}%"]);
+            })
+
+            ->addColumn('asisten', function ($row) {
+                return $row->assistant_name;
+            })
+            ->filterColumn('asisten', function ($query, $keyword) {
+                $query->where('assistant_name', 'like', ["%{$keyword}%"]);
             })
 
             ->addColumn('waktu_absen', function ($row) {
