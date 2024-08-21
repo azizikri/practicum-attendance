@@ -100,6 +100,15 @@ class ScheduleDataTable extends DataTable
                             </button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                 <a class="dropdown-item" href="' . route('admin.schedules.end-session', $row->id) . '">Selesaikan Pertemuan</a>
+                                <button
+                                    class="dropdown-item"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#updateScheduleSessionModal"
+                                    data-route="' . route('admin.schedules.update-session', $row->id) . '"
+                                    data-total-session="'. $row->total_session .'"
+                                    data-title="Apakah anda ingin update sesi jadwal ' . $row->class_subject_name . '?">
+                                    Atur Pertemuan
+                                </button>
                             </div>
                         </div>' : '')
                     . '<a href="' . route('admin.schedules.edit', $row->id) . '" class="text-info">
