@@ -6,7 +6,9 @@ use App\Enums\UserRole;
 use App\Models\Schedule;
 use App\Models\Attendance;
 use App\Helpers\TokenHelper;
+use App\Exports\AttendancesExport;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use App\DataTables\AttendanceDataTable;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -52,4 +54,10 @@ class AttendanceController extends Controller
 
         return redirect()->route('admin.attendances.index')->with('success', 'Menghapus presensi berhasil!');
     }
+
+    public function export(Schedule $schedule)
+    {
+        return Excel::download(new AttendancesExport($schedule), "attendances_{$schedule->class_subject_name}.xlsx");
+    }
+
 }

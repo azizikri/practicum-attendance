@@ -62,7 +62,7 @@ class UserDataTable extends DataTable
                 });
         }
 
-        $columns->addColumn('action', function ($row) {
+        $columns->addColumn('action', function ($row) use ($isStudent) {
             return
                 '
                 <div class="gap-3 d-flex align-items-center">
@@ -70,9 +70,11 @@ class UserDataTable extends DataTable
                         <button type="button" class="mr-3 btn btn-sm btn-warning btn-icon-text">
                             Edit
                         </button>
-                    </a>
-
-                    <button
+                    </a>' . ($isStudent ? '<a href="' . route('admin.students.show', $row->id) . '" class="text-info">
+                    <button type="button" class="btn btn-sm btn-info btn-icon-text">
+                        Details
+                    </button>
+                </a>' : '') . '<button
                         type="button"
                             class="btn btn-sm btn-danger btn-icon-text"
                             data-bs-toggle="modal"
@@ -138,7 +140,7 @@ class UserDataTable extends DataTable
         if ($isAssistantOrStudent) {
             $columns[] = Column::make('npm');
         }
-        if ($isStudent){
+        if ($isStudent) {
             $columns[] = Column::make('kelas');
         }
 

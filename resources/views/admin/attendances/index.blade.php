@@ -22,7 +22,7 @@
                     </div>
                     <div class="table-responsive">
                         <div class="table-responsive">
-                            {{ $dataTable->table() }}
+                            {{ $dataTableAttendances->table() }}
                         </div>
                     </div>
                 </div>
@@ -36,5 +36,5 @@
 @endpush
 
 @push('custom-scripts')
-    {{ $dataTable->scripts() }}
+    {{ $dataTableAttendances->scripts() }}
 @endpush

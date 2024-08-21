@@ -71,10 +71,10 @@ class Schedule extends Model
         return $this->belongsToMany(User::class);
     }
 
-    // public function students()
-    // {
-    //     return $this->belongsToThrough(User::class, [ClassSubject::class, ClassModel::class]);
-    // }
+    public function students()
+    {
+        return $this->belongsToThrough(User::class, [ClassSubject::class, ClassModel::class]);
+    }
 
     public function class()
     {

@@ -73,6 +73,13 @@ class User extends Authenticatable
         );
     }
 
+    public function shifts()
+    {
+        return $this->belongsToMany(
+            Schedule::class,
+        );
+    }
+
 
     public static function checkAdminCount() : bool
     {

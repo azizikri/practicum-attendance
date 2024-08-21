@@ -58,10 +58,9 @@
 
 - yang belom
   - details user (absen)✅
-  - export attendance in schedule details
-  - show all schedule,
-  - add session and show button in dahsboard
-  - button in student datatable
+  - export attendance in schedule details✅
+  - add session and show button in dahsboard✅
+  - button in student datatable✅
 
 - user
   - first page langsung login✅

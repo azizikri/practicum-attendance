@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
 class ScheduleAssistantDataTable extends DataTable
 {
+    protected string $dataTableVariable = 'dataTableAssistants';
+
     /**
      * Build DataTable class.
      *
@@ -60,8 +62,8 @@ class ScheduleAssistantDataTable extends DataTable
      */
     public function query(User $model) : QueryBuilder
     {
-        return $model->newQuery()->whereRole(UserRole::Assistant)->whereHas('schedules', function ($q) {
-            $q->where('schedule_id', $this->schedule->id);
+        return $model->newQuery()->whereRole(UserRole::Assistant)->whereHas('shifts', function ($q) {
+            $q->where('schedules.id', $this->schedule->id);
         })->orderBy('name');
     }
 

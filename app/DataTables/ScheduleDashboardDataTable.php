@@ -2,16 +2,17 @@
 
 namespace App\DataTables;
 
+use App\Enums\UserRole;
 use App\Models\Schedule;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Illuminate\Support\Facades\Auth;
 
 class ScheduleDashboardDataTable extends DataTable
 {
@@ -63,8 +64,26 @@ class ScheduleDashboardDataTable extends DataTable
             ->addColumn('action', function ($row) {
                 return
                     '
-                    <div class="gap-3 d-flex align-items-center">
-                        <button
+                    <div class="gap-3 d-flex align-items-center">' .
+                    (in_array(auth()->user()->role, [UserRole::Admin]) || auth()->id() == $row->pj_id ?
+                        '<div class="btn-group" role="group">
+                            <button id="btnGroupDrop1" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Atur Pertemuan
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <a class="dropdown-item" href="' . route('admin.schedules.end-session', $row->id) . '">Selesaikan Pertemuan</a>
+                                <button
+                                    class="dropdown-item"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#updateScheduleSessionModal"
+                                    data-route="' . route('admin.schedules.update-session', $row->id) . '"
+                                    data-total-session="' . $row->total_session . '"
+                                    data-title="Apakah anda ingin update sesi jadwal ' . $row->class_subject_name . '?">
+                                    Atur Pertemuan
+                                </button>
+                            </div>
+                        </div>' : '') .
+                    '<button
                             type="button"
                             class="btn btn-sm btn-info btn-icon-text"
                             data-bs-toggle="modal"
@@ -73,6 +92,12 @@ class ScheduleDashboardDataTable extends DataTable
                             data-title="QR Code ' . $row->class_subject_name . '">
                                 Tunjukkan QR
                         </button>
+
+                        <a href="' . route('admin.schedules.show', $row->id) . '" class="text-warning">
+                            <button type="button" class="btn btn-sm btn-warning btn-icon-text">
+                                Details
+                            </button>
+                        </a>
                     </div>
                 ';
             })
@@ -91,9 +116,8 @@ class ScheduleDashboardDataTable extends DataTable
         /** @var \App\Models\User $user **/
         $user = auth()->user();
 
-        $query = $model->newQuery()
-            ->where('academic_year', settings()->get('academic_year'))
-            ->where('academic_period', settings()->get('academic_period'));
+        $query = $model->newQuery();
+
 
 
         if (! $user->isAdmin()) {
@@ -103,6 +127,9 @@ class ScheduleDashboardDataTable extends DataTable
                 })
                 ->orWhere('pj_id', auth()->id());
         }
+
+        $query->where('academic_year', settings()->get('academic_year'))
+            ->where('academic_period', settings()->get('academic_period'));
 
         return $query->orderBy('academic_period');
     }

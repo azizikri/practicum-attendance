@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\AttendanceDataTable;
 use App\Models\User;
 use App\Enums\UserRole;
 use App\Models\Schedule;
@@ -69,13 +70,35 @@ class ScheduleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ScheduleAssistantDataTable $dataTable, Schedule $schedule)
+    public function show(ScheduleAssistantDataTable $dataTableAssistants, AttendanceDataTable $dataTableAttendances, Schedule $schedule)
     {
-        return $dataTable->with('schedule', $schedule)->render('admin.schedules.show', [
-            'assistants' => User::whereRole(UserRole::Assistant)->whereDoesntHave('schedules', function ($q) use ($schedule) {
-                $q->where('schedule_id', $schedule->id);
-            })->where('id', '!=', $schedule->pj_id)->get(),
+
+        $academicYear = settings()->get('academic_year');
+        $academicPeriod = settings()->get('academic_period');
+        if($schedule->academic_year != $academicYear || $schedule->academic_period != $academicPeriod && !auth()->user()->isAdmin()){
+            return abort(404);
+        }
+
+        if (!auth()->user()->isAdmin() && auth()->id() != $schedule->pj_id) {
+            return redirect()->route('admin.dashboard')->with('error', 'Anda bukan PJ di jadwal ini!');
+        }
+
+
+        return view("admin.schedules.show", [
+            'assistants' => User::where('role', UserRole::Assistant)
+                ->whereNotIn('users.id', $schedule->assistants()->pluck('users.id'))
+                ->where('users.id', '!=', $schedule->pj_id)
+                ->get(),
+
             'schedule' => $schedule,
+            'dataTableScheduleAssistants' => $dataTableAssistants->with('schedule', $schedule)->html()->ajax([
+                "url" => route('admin.data-table.schedule.assistants', $schedule),
+                "type" => "GET",
+            ]),
+            'dataTableScheduleAttendances' => $dataTableAttendances->with('schedule', $schedule)->html()->ajax([
+                "url" => route('admin.data-table.schedule.attendances', $schedule),
+                "type" => "GET",
+            ]),
         ]);
     }
 
@@ -148,11 +171,11 @@ class ScheduleController extends Controller
         /** @var \App\Models\User $user **/
         $user = auth()->user();
 
-        if ($schedule->pj_id != $user->id && $user->isAdmin()){
+        if ($schedule->pj_id != $user->id && $user->isAdmin()) {
             return back()->with('error', 'Selain PJ dilarang mengedit');
         }
 
-        if ($schedule->session >= $schedule->total_session){
+        if ($schedule->session >= $schedule->total_session) {
             return back()->with('error', 'Jadwal sudah mencapai ujian');
         }
 
@@ -171,3 +194,4 @@ class ScheduleController extends Controller
         return back()->with('success', 'Session berhasil diupdate!');
     }
 }
+

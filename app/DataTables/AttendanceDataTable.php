@@ -3,17 +3,21 @@
 namespace App\DataTables;
 
 use App\Models\Attendance;
-use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Yajra\DataTables\EloquentDataTable;
-use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use App\Exports\AttendancesExport;
+use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
 class AttendanceDataTable extends DataTable
 {
+    protected string $dataTableVariable = 'dataTableAttendances';
+    // protected $exportClass = AttendancesExport::class;
+
     /**
      * Build DataTable class.
      *
@@ -62,7 +66,7 @@ class AttendanceDataTable extends DataTable
                             data-bs-toggle="modal"
                             data-bs-target="#deleteModal"
                             data-route="' . route('admin.attendances.destroy', $row->id) . '"
-                            data-title="Apakah anda ingin menghapus absen ' . $row->student_name . ' di kelas ' . $row->schedule_class_subject_name .'">
+                            data-title="Apakah anda ingin menghapus absen ' . $row->student_name . ' di kelas ' . $row->schedule_class_subject_name . '">
                                 Hapus
                         </button>
                     </div>
@@ -80,7 +84,13 @@ class AttendanceDataTable extends DataTable
      */
     public function query(Attendance $model) : QueryBuilder
     {
-        return $model->newQuery()->orderBy('created_at');
+        $query = $model->newQuery();
+
+        if ($this->schedule != null) {
+            $query->whereBelongsTo($this->schedule);
+        }
+
+        return $query->orderBy('session', 'desc')->orderBy('created_at');
     }
 
     /**
@@ -90,16 +100,21 @@ class AttendanceDataTable extends DataTable
      */
     public function html() : HtmlBuilder
     {
-        return $this->builder()
-            ->setTableId('attedance-table')
+        $builder = $this->builder()
+            ->setTableId('attendance-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->layout(['Bfrtip'])
+            ->dom('Bfrtip')
             ->orderBy(1)
-            ->selectStyleSingle()
-            ->buttons([
-                Button::make('csv'),
+            ->selectStyleSingle();
+
+        if ($this->schedule != null) {
+            $builder->buttons([
+                Button::make('excel')->action('function() { window.location = "' . route('admin.attendances.export', ['schedule' => $this->schedule]) . '"; }')
             ]);
+        }
+
+        return $builder;
     }
 
     /**

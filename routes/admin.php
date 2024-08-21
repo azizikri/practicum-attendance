@@ -16,6 +16,7 @@ Route::middleware(['auth', 'user-access:admin,assistant'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
     Route::group(['prefix' => 'attendances', 'as' => 'attendances.'], function () {
         Route::get('/create/{schedule}', [AttendanceController::class, 'create'])->name('create');
+        Route::get('/export/{schedule}', [AttendanceController::class, 'export'])->name('export');
     });
 
     Route::middleware(['user-access:admin'])->group(function () {
@@ -94,6 +95,7 @@ Route::middleware(['auth', 'user-access:admin,assistant'])->group(function () {
         Route::group(['prefix' => 'data-table', 'as' => 'data-table.'], function () {
             Route::get("/class/{class}/students", [AjaxDataTableController::class, 'classStudents'])->name("class.students");
             Route::get("/class/{class}/subjects", [AjaxDataTableController::class, 'classSubjects'])->name("class.subjects");
+            Route::get("/schedule/{schedule}/assistants", [AjaxDataTableController::class, 'scheduleAssistants'])->name("schedule.assistants");
         });
 
         Route::group(['prefix' => 'settings', 'as' => 'settings.'], function () {
@@ -107,6 +109,9 @@ Route::middleware(['auth', 'user-access:admin,assistant'])->group(function () {
     Route::group(['prefix' => 'schedules', 'as' => 'schedules.'], function () {
         Route::get('/{schedule}/end-session', [ScheduleController::class, 'endSession'])->name('end-session');
         Route::get('/{schedule}', [ScheduleController::class, 'show'])->name('show');
+    });
+    Route::group(['prefix' => 'data-table', 'as' => 'data-table.'], function () {
+        Route::get("/schedule/{schedule}/attendances", [AjaxDataTableController::class, 'scheduleAttendances'])->name("schedule.attendances");
     });
 });
 
