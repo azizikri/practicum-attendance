@@ -27,6 +27,13 @@ class AttendanceDataTable extends DataTable
     public function dataTable(QueryBuilder $query) : EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addColumn('kelas', function ($row) {
+                return $row->schedule_class_subject_name;
+            })
+            ->filterColumn('kelas', function ($query, $keyword) {
+                $query->where('schedule_class_subject_name', 'like', ["%{$keyword}%"]);
+            })
+
             ->addColumn('pertemuan', function ($row) {
                 return $row->session;
             })
