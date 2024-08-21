@@ -133,8 +133,9 @@ class AttendanceDataTable extends DataTable
     {
         return [
             Column::make('kelas'),
-            Column::make('asisten'),
+            Column::make('pertemuan'),
             Column::make('praktikan'),
+            Column::make('asisten'),
             Column::make('waktu_absen'),
             Column::computed('action')
                 ->exportable(false)
