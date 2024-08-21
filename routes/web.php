@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\AttendanceController;
 use App\Http\Middleware\IsChangePassword;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AttendanceController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -15,9 +16,7 @@ Route::middleware(['auth', 'user-access:student', 'is-change-password'])->group(
         return view('scan-qr');
     })->middleware(['auth', 'verified'])->name('scan-qr');
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit')->withoutMiddleware([IsChangePassword::class]);
 

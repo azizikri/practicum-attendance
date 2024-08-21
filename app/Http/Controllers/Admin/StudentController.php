@@ -41,8 +41,8 @@ class StudentController extends Controller
         $academicPeriod = settings()->get('academic_period');
 
         $schedules = $user->schedules()
-            // ->where('academic_year', $academicYear)
-            // ->where('academic_period', $academicPeriod)
+            ->where('academic_year', $academicYear)
+            ->where('academic_period', $academicPeriod)
             ->with('attendances')
             ->get()
             ->groupBy(['academic_year', 'academic_period']);

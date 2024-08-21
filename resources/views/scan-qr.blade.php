@@ -10,10 +10,6 @@
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div x-data="qrScanner()" x-init="startScanner()" class="mt-6">
                     <div id="qr-reader" class="w-full"></div>
-                    <div x-show="scannedData" class="p-4 mt-4 text-green-800 bg-green-100 rounded">
-                        <p>Scanned Data:</p>
-                        <p x-text="scannedData"></p>
-                    </div>
                 </div>
             </div>
         </div>

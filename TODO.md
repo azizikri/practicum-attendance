@@ -61,9 +61,10 @@
   - export attendance in schedule details
   - show all schedule,
   - add session and show button in dahsboard
+  - button in student datatable
 
 - user
   - first page langsung login✅
   - when login for the first time change the password✅
   - Make FE (QR)✅
-  - make kartu praktikum
+  - make kartu praktikum✅
