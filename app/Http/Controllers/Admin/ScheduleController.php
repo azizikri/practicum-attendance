@@ -171,7 +171,7 @@ class ScheduleController extends Controller
         /** @var \App\Models\User $user **/
         $user = auth()->user();
 
-        if ($schedule->pj_id != $user->id && $user->isAdmin()) {
+        if (!auth()->user()->isAdmin() && auth()->id() != $schedule->pj_id) {
             return back()->with('error', 'Selain PJ dilarang mengedit');
         }
 
