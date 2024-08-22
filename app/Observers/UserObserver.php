@@ -58,33 +58,36 @@ class UserObserver
         $isAssistant = $user->role == UserRole::Assistant;
         $isStudent = $user->role == UserRole::Student;
 
-        $existingUserWithEmail = User::where('email', $user->email)
-            ->where('id', '!=', $user->id)
-            ->first();
+        if ($isAssistant || $isStudent) {
 
-        if ($existingUserWithEmail) {
-            $validator = Validator::make([], []);
-            $validator->errors()->add('email', "The email {$user->email} is already taken.");
-            throw new ValidationException($validator, redirect()->back()->withErrors($validator)->withInput());
-        }
+            $existingUserWithEmail = User::where('email', $user->email)
+                ->where('id', '!=', $user->id)
+                ->first();
 
-        $existingUserWithNpm = User::where('npm', $user->npm)
-            ->where('role', $user->role)
-            ->where('id', '!=', $user->id)
-            ->first();
+            if ($existingUserWithEmail) {
+                $validator = Validator::make([], []);
+                $validator->errors()->add('email', "The email {$user->email} is already taken.");
+                throw new ValidationException($validator, redirect()->back()->withErrors($validator)->withInput());
+            }
 
-        if ($existingUserWithNpm) {
-            $validator = Validator::make([], []);
-            $validator->errors()->add('npm', "The npm {$user->npm} is already taken for the same role.");
-            throw new ValidationException($validator, redirect()->back()->withErrors($validator)->withInput());
-        }
+            $existingUserWithNpm = User::where('npm', $user->npm)
+                ->where('role', $user->role)
+                ->where('id', '!=', $user->id)
+                ->first();
 
-        if ($isStudent) {
-            $user->email = "{$user->npm}@iflab.gunadarma.ac.id";
-        }
+            if ($existingUserWithNpm) {
+                $validator = Validator::make([], []);
+                $validator->errors()->add('npm', "The npm {$user->npm} is already taken for the same role.");
+                throw new ValidationException($validator, redirect()->back()->withErrors($validator)->withInput());
+            }
 
-        if ($isAssistant) {
-            $user->email = "{$user->npm}-assisten@iflab.gunadarma.ac.id";
+            if ($isStudent) {
+                $user->email = "{$user->npm}@iflab.gunadarma.ac.id";
+            }
+
+            if ($isAssistant) {
+                $user->email = "{$user->npm}-assisten@iflab.gunadarma.ac.id";
+            }
         }
     }
 }
