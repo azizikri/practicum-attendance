@@ -73,7 +73,12 @@ class ScheduleDashboardDataTable extends DataTable
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                 <a class="dropdown-item" href="' . route('admin.schedules.end-session', $row->id) . '">Selesaikan Pertemuan</a>
                             </div>
-                        </div>' : '') .
+                        </div>
+                        <a href="' . route('admin.schedules.show', $row->id) . '" class="text-warning">
+                            <button type="button" class="btn btn-sm btn-warning btn-icon-text">
+                                Details
+                            </button>
+                        </a>' : '') .
                     '<button
                             type="button"
                             class="btn btn-sm btn-info btn-icon-text"
@@ -84,11 +89,7 @@ class ScheduleDashboardDataTable extends DataTable
                                 Tunjukkan QR
                         </button>
 
-                        <a href="' . route('admin.schedules.show', $row->id) . '" class="text-warning">
-                            <button type="button" class="btn btn-sm btn-warning btn-icon-text">
-                                Details
-                            </button>
-                        </a>
+
                     </div>
                 ';
             })
