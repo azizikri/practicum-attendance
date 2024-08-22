@@ -114,7 +114,7 @@ class ScheduleDashboardDataTable extends DataTable
         if (! $user->isAdmin()) {
             $query
                 ->whereHas('assistants', function ($query) {
-                    $query->where('user_id', auth()->id());
+                    $query->where('users.id', auth()->id());
                 })
                 ->orWhere('pj_id', auth()->id());
         }
