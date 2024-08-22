@@ -117,8 +117,19 @@ class ClassModelController extends Controller
     public function addSubjects(ClassSubjectRequest $request, ClassModel $class)
     {
         $data = $request->validated();
+        $subjectsPivot = [];
 
-        $class->subjects()->syncWithoutDetaching($data['subjects']);
+        $subjects = Subject::whereIn('id', $data)->get();
+
+        foreach ($subjects as $subject) {
+            $subjectsPivot[$subject->id] = [
+                'class_name' => $class->name,
+                'subject_name' => $subject->name,
+                'subject_short_name' => $subject->short_name
+            ];
+        }
+
+        $class->subjects()->syncWithoutDetaching($subjectsPivot);
 
         return redirect()->route('admin.classes.show', $class)->with('success', 'Mata Praktikum berhasil ditambah!');
     }

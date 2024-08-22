@@ -36,7 +36,7 @@ class ClassRequest extends FormRequest
     public function rules() : array
     {
         return [
-            'name' => [$this->isMethod('POST') ? 'required' : 'sometimes', 'string', 'max:6', Rule::unique(ClassModel::class)->ignore($this->class)]
+            'name' => [$this->isMethod('POST') ? 'required' : 'sometimes', 'string', Rule::unique(ClassModel::class)->ignore($this->class)]
         ];
     }
 }

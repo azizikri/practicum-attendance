@@ -36,7 +36,7 @@ class SubjectRequest extends FormRequest
     public function rules() : array
     {
         return [
-            'name' => [$this->isMethod('POST') ? 'required' : 'sometimes', 'string', 'max:6', Rule::unique(Subject::class)->ignore($this->subject)]
+            'name' => [$this->isMethod('POST') ? 'required' : 'sometimes', 'string', Rule::unique(Subject::class)->ignore($this->subject)]
         ];
     }
 }

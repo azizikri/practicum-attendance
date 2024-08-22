@@ -21,7 +21,7 @@ class CheckScheduleSession implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if ($this->currentSchedule->max_session < $value){
+        if ($this->currentSchedule->total_session < $value){
             $fail('The :attribute is already ended!');
         }
     }
