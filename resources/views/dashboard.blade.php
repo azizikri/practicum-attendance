@@ -25,7 +25,7 @@
                                                 </h6>
 
                                                 <div class="overflow-x-auto mx-auto">
-                                                    <table class="min-w-full bg-white border border-gray-200 sm:table-fixed">
+                                                    <table class="min-w-full bg-white border border-gray-200 lg:mx-auto sm:table-fixed">
                                                         <thead class="bg-gray-100">
                                                             <tr>
                                                                 <th class="px-4 py-2 text-sm font-medium text-left text-gray-700">
