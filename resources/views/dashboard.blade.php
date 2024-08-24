@@ -49,7 +49,7 @@
                                                                 <td class="px-4 py-2 text-sm text-gray-700">
                                                                     {{ $attendance['status'] }}</td>
                                                                 <td class="px-4 py-2 text-sm text-gray-700">
-                                                                    {{ $attendance['created_at'] == 'Tidak ada Data' ? $attendance['created_at'] : \Carbon\Carbon::parse($attendance['created_at'])->diffForHumans() }}
+                                                                    {{ $attendance['created_at'] == 'Tidak ada Data' ? $attendance['created_at'] : \Carbon\Carbon::parse($attendance['created_at'])->translatedFormat('d F Y') }}
                                                                 </td>
                                                                 <td class="px-4 py-2 text-sm text-gray-700">
                                                                     {{ $attendance['assistant_name'] }}</td>
