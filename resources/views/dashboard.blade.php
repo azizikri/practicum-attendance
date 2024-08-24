@@ -33,15 +33,26 @@
                                                             <th
                                                                 class="px-4 py-2 text-sm font-medium text-left text-gray-700">
                                                                 Presensi</th>
+                                                            <th
+                                                                class="px-4 py-2 text-sm font-medium text-left text-gray-700">
+                                                                Tanggal</th>
+                                                            <th
+                                                                class="px-4 py-2 text-sm font-medium text-left text-gray-700">
+                                                                Asisten yang mengabsen</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach ($schedule->checkAttendances(auth()->user()) as $session => $status)
+                                                        {{-- @dd($schedule->checkAttendances(auth()->user())) --}}
+                                                        @foreach ($schedule->checkAttendances(auth()->user()) as $session => $attendance)
                                                             <tr class="border-t border-gray-200">
                                                                 <td class="px-4 py-2 text-sm text-gray-700">
                                                                     {{ $session }}</td>
                                                                 <td class="px-4 py-2 text-sm text-gray-700">
-                                                                    {{ $status }}</td>
+                                                                    {{ $attendance['status'] }}</td>
+                                                                <td class="px-4 py-2 text-sm text-gray-700">
+                                                                    {{ $attendance['created_at'] }}</td>
+                                                                    <td class="px-4 py-2 text-sm text-gray-700">
+                                                                        {{ $attendance['assistant_name'] }}</td>
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
@@ -49,22 +60,22 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    @empty
-                                        <p class="text-gray-500">No schedules available for this period.</p>
-                                    @endforelse
-                                </div>
+                                @empty
+                                    <p class="text-gray-500">Belum ada jadwal untuk periode ini.</p>
+                                @endforelse
                             </div>
                         </div>
-                        @empty
-                            <div class="p-4">
-                                <div class="flex items-center justify-center">
-                                    <div class="max-w-lg p-6 text-center bg-white rounded-lg shadow">
-                                        <p class="text-gray-500">No schedules available for this academic year.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforelse
                     </div>
-                </div>
+                @empty
+                    <div class="p-4">
+                        <div class="flex items-center justify-center">
+                            <div class="max-w-lg p-6 text-center bg-white rounded-lg shadow">
+                                <p class="text-gray-500">No schedules available for this academic year.</p>
+                            </div>
+                        </div>
+                    </div>
+                @endforelse
             </div>
-        </x-app-layout>
+        </div>
+    </div>
+</x-app-layout>

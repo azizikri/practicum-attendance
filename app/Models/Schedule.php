@@ -47,18 +47,32 @@ class Schedule extends Model
     {
         $attendedSessions = $this->attendances()
             ->where('student_id', $user->id)
-            ->whereBetween('session', [1, $this->total_session]) // Assuming session values start from 1
-            ->pluck('session')
+            ->whereBetween('session', [1, $this->total_session]) // Mengasumsikan nilai sesi dimulai dari 1
+            ->get(['session', 'assistant_name', 'created_at'])
+            ->keyBy('session')
             ->toArray();
 
         $attendanceStatus = [];
 
         for ($session = 1; $session <= $this->total_session; $session++) {
-            $attendanceStatus[$session] = in_array($session, $attendedSessions) ? "Hadir" : "Absen";
+            if (isset($attendedSessions[$session])) {
+                $attendanceStatus[$session] = [
+                    'status' => "Hadir",
+                    'assistant_name' => $attendedSessions[$session]['assistant_name'],
+                    'created_at' => $attendedSessions[$session]['created_at'],
+                ];
+            } else {
+                $attendanceStatus[$session] = [
+                    'status' => "Absen",
+                    'assistant_name' => "Tidak ada Data",
+                    'created_at' => "Tidak ada Data",
+                ];
+            }
         }
 
         return $attendanceStatus;
     }
+
 
 
     public function pj()
