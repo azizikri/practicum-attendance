@@ -28,7 +28,9 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('admin.students.create');
+        return view('admin.students.create', [
+            'classes' => ClassModel::get(['id', 'name']),
+        ]);
     }
 
     public function show(User $user)

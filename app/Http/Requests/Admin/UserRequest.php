@@ -50,6 +50,8 @@ class UserRequest extends FormRequest
     public function rules()
     {
         $isFromAssistantOrStudentRoute = in_array(Route::currentRouteName(), ['admin.assistants.store', 'admin.students.store', 'admin.assistants.update', 'admin.students.update']);
+        $isFromStudentRoute = in_array(Route::currentRouteName(), ['admin.students.store', 'admin.students.update']);
+
 
         $rules = [
             'name' => [$this->isMethod('POST') ? 'required' : 'sometimes', 'string', 'max:255'],
@@ -57,6 +59,13 @@ class UserRequest extends FormRequest
         ];
 
         if ($isFromAssistantOrStudentRoute) {
+            if ($isFromStudentRoute) {
+                $rules['class_id'] = [
+                    'nullable',
+                    'numeric',
+                    'exists:users,id',
+                ];
+            }
             $rules['npm'] = [
                 $this->isMethod('POST') ? 'required' : 'sometimes',
                 'numeric',

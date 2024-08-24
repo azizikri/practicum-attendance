@@ -30,6 +30,19 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="class" class="form-label">Class</label>
+                            <select class="form-control select-class" id="class" name="class_id">
+                                <option selected disabled hidden>Pilih Class</option>
+                                @forelse ($classes as $class)
+                                    <option @selected(old('class')) value="{{ $class->id }}">
+                                        {{ $class->name }}</option>
+                                @empty
+                                    <option disabled>No data!</option>
+                                @endforelse
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input name="password" type="password" class="form-control" id="password" autocomplete="off"
                                 placeholder="Password">

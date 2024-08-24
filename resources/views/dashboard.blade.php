@@ -14,7 +14,7 @@
                             <div class="p-6">
                                 <h6 class="text-lg font-semibold">Presensi {{ $year }}</h6>
 
-                                @forelse ($periods as $period => $schedules)
+                                @foreach ($periods as $period => $schedules)
                                     <h6 class="my-3 text-lg font-semibold">Periode {{ strtoupper($period) }}</h6>
 
                                     <div class="grid items-center justify-center grid-cols-4 col-span-2">
@@ -23,8 +23,8 @@
                                                 {{ $schedule->class_subject_name }}
                                             </h6>
 
-                                            <div class="overflow-x-auto">
-                                                <table class="min-w-full bg-white border border-gray-200">
+                                            <div class="overflow-x-auto mx-auto">
+                                                <table class="min-w-full bg-white border border-gray-200 mx-auto">
                                                     <thead class="bg-gray-100">
                                                         <tr>
                                                             <th
@@ -42,7 +42,6 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {{-- @dd($schedule->checkAttendances(auth()->user())) --}}
                                                         @foreach ($schedule->checkAttendances(auth()->user()) as $session => $attendance)
                                                             <tr class="border-t border-gray-200">
                                                                 <td class="px-4 py-2 text-sm text-gray-700">
@@ -51,8 +50,8 @@
                                                                     {{ $attendance['status'] }}</td>
                                                                 <td class="px-4 py-2 text-sm text-gray-700">
                                                                     {{ $attendance['created_at'] }}</td>
-                                                                    <td class="px-4 py-2 text-sm text-gray-700">
-                                                                        {{ $attendance['assistant_name'] }}</td>
+                                                                <td class="px-4 py-2 text-sm text-gray-700">
+                                                                    {{ $attendance['assistant_name'] }}</td>
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
@@ -60,9 +59,7 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                @empty
-                                    <p class="text-gray-500">Belum ada jadwal untuk periode ini.</p>
-                                @endforelse
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -70,7 +67,7 @@
                     <div class="p-4">
                         <div class="flex items-center justify-center">
                             <div class="max-w-lg p-6 text-center bg-white rounded-lg shadow">
-                                <p class="text-gray-500">No schedules available for this academic year.</p>
+                                <p class="text-gray-500">Belum ada jadwal untuk periode ini.</p>
                             </div>
                         </div>
                     </div>

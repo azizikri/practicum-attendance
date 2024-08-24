@@ -37,11 +37,14 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="class" class="form-label">Class</label>
+                            <label for="class" class="form-label">Kelas</label>
                             <select class="form-control select-class" id="class" name="class_id">
-                                <option selected disabled hidden>Pilih Class</option>
+                                <option selected disabled hidden>Pilih Kelas</option>
+                                <option @selected( $user->class_id == null ||  $user->class_id == old('class')) value="">
+                                    Non Kelas
+                                </option>
                                 @forelse ($classes as $class)
-                                    <option @selected($class->id == $user->class->id || $class->id == old('class')) value="{{ $class->id }}">
+                                    <option @selected($class->id == $user->class?->id || $class->id == old('class')) value="{{ $class->id }}">
                                         {{ $class->name }}</option>
                                 @empty
                                     <option disabled>No data!</option>
