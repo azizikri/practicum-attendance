@@ -7,12 +7,6 @@
             <div class="mx-auto col-md-8 col-xl-6">
                 <div class="card">
                     <div class="row">
-                        <div class="col-md-4 pe-md-0">
-                            <div class="auth-side-wrapper"
-                                style="background-image: url({{ asset('assets/img/login-image.jpg') }})">
-
-                            </div>
-                        </div>
                         <div class="col-md-8 ps-md-0">
                             <div class="px-4 py-5 auth-form-wrapper">
                                 <a href="#" class="mb-2 noble-ui-logo d-block">Practicum Attendance</a>
