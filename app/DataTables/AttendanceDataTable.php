@@ -26,7 +26,7 @@ class AttendanceDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query) : EloquentDataTable
     {
-        return (new EloquentDataTable($query))
+        $columns = (new EloquentDataTable($query))
             ->addColumn('kelas', function ($row) {
                 return $row->schedule_class_subject_name;
             })
@@ -60,10 +60,10 @@ class AttendanceDataTable extends DataTable
             })
             ->filterColumn('waktu_absen', function ($query, $keyword) {
                 $query->where('created_at', 'like', ["%{$keyword}%"]);
-            })
+            });
 
-
-            ->addColumn('action', function ($row) {
+        if (auth()->user()->isAdmin()) {
+            $columns->addColumn('action', function ($row) {
                 return
                     '
                     <div class="gap-3 d-flex align-items-center">
@@ -78,9 +78,11 @@ class AttendanceDataTable extends DataTable
                         </button>
                     </div>
                 ';
-            })
+            });
+        }
 
-            ->setRowId('id');
+
+        return $columns->setRowId('id');
     }
 
     /**
@@ -131,18 +133,23 @@ class AttendanceDataTable extends DataTable
      */
     public function getColumns() : array
     {
-        return [
+        $columns = [
             Column::make('kelas'),
             Column::make('pertemuan'),
             Column::make('praktikan'),
             Column::make('asisten'),
             Column::make('waktu_absen'),
-            Column::computed('action')
+        ];
+
+        if (auth()->user()->isAdmin()) {
+            $columns[] = Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(150)
-                ->addClass('text-center'),
-        ];
+                ->addClass('text-center');
+        }
+
+        return $columns;
     }
 
     /**
