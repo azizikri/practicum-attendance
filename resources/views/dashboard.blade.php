@@ -17,14 +17,14 @@
                                 @foreach ($periods as $period => $schedules)
                                     <h6 class="my-3 text-lg font-semibold">Periode {{ strtoupper($period) }}</h6>
 
-                                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 items-center justify-center">
+                                    <div class="grid items-center justify-center grid-cols-1 gap-4 sm:grid-cols-4">
                                         @foreach ($schedules as $index => $schedule)
                                             <div class="col-span-1 sm:col-span-4">
                                                 <h6 class="my-3 text-lg font-semibold">
                                                     {{ $schedule->class_subject_name }}
                                                 </h6>
 
-                                                <div class="overflow-x-auto mx-auto">
+                                                <div class="mx-auto overflow-x-auto">
                                                     <table class="min-w-full bg-white border border-gray-200 lg:mx-auto sm:table-fixed">
                                                         <thead class="bg-gray-100">
                                                             <tr>

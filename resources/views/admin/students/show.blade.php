@@ -23,6 +23,7 @@
             }
         }
     } --}}
+
     @forelse ($schedules as $year => $periods)
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
@@ -43,13 +44,23 @@
                                             <tr>
                                                 <th>Pertemuan</th>
                                                 <th>Presensi</th>
+                                                <th>
+                                                    Tanggal
+                                                </th>
+                                                <th>
+                                                    Asisten yang mengabsen
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($schedule->checkAttendances($user) as $session => $status)
+                                            @forelse ($schedule->checkAttendances($user) as $session => $atttendance)
                                                 <tr>
                                                     <th>{{ $session }}</th>
-                                                    <td>{{ $status }}</td>
+                                                    <td>{{ $attendance['status'] }}</td>
+                                                    <td> {{ $attendance['created_at'] == 'Tidak ada Data' ? $attendance['created_at'] : \Carbon\Carbon::parse($attendance['created_at'])->translatedFormat('d F Y') }}
+                                                    </td>
+                                                    <td>{{ $attendance['assistant_name'] }}</td>
+
                                                 </tr>
                                             @empty
                                                 <tr>
