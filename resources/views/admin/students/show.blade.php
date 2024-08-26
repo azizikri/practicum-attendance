@@ -53,7 +53,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($schedule->checkAttendances($user) as $session => $atttendance)
+                                            @forelse ($schedule->checkAttendances($user) as $session => $attendance)
                                                 <tr>
                                                     <th>{{ $session }}</th>
                                                     <td>{{ $attendance['status'] }}</td>
