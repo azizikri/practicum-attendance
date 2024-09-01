@@ -14,14 +14,14 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="my-3 card-title">Edit Mata Praktikum</h6>
-                    <form class="forms-sample" action="{{ route('admin.subjects.update', $user) }}" method="POST">
+                    <form class="forms-sample" action="{{ route('admin.subjects.update', $subject) }}" method="POST">
                         @csrf
                         @method('PATCH')
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Nama</label>
                             <input name="name" type="text" class="form-control" id="name" autocomplete="off"
-                                placeholder="Nama" value="{{ old('name') ?? $user->name }}">
+                                placeholder="Nama" value="{{ old('name') ?? $subject->name }}">
                         </div>
 
                         <button type="submit" class="btn btn-primary me-2">Submit</button>
