@@ -118,8 +118,8 @@ class ClassModelController extends Controller
     {
         $data = $request->validated();
         $subjectsPivot = [];
-
-        $subjects = Subject::whereIn('id', $data)->get();
+        
+        $subjects = Subject::whereIn('id', $data['subjects'])->get();
 
         foreach ($subjects as $subject) {
             $subjectsPivot[$subject->id] = [
