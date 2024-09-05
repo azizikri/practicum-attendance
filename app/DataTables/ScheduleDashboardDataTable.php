@@ -64,7 +64,16 @@ class ScheduleDashboardDataTable extends DataTable
             ->addColumn('action', function ($row) {
                 return
                     '
-                    <div class="gap-3 d-flex align-items-center">' .
+                    <div class="gap-3 d-flex align-items-center">
+                        <button
+                                type="button"
+                                class="btn btn-sm btn-info btn-icon-text"
+                                data-bs-toggle="modal"
+                                data-bs-target="#showQRModal"
+                                data-route="' . route('admin.attendances.create', $row->id) . '"
+                                data-title="QR Code ' . $row->class_subject_name . '">
+                                    Tunjukkan QR
+                        </button>' .
                     (in_array(auth()->user()->role, [UserRole::Admin]) || auth()->id() == $row->pj_id ?
                         '<div class="btn-group" role="group">
                             <button id="btnGroupDrop1" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -79,17 +88,7 @@ class ScheduleDashboardDataTable extends DataTable
                                 Details
                             </button>
                         </a>' : '') .
-                    '<button
-                            type="button"
-                            class="btn btn-sm btn-info btn-icon-text"
-                            data-bs-toggle="modal"
-                            data-bs-target="#showQRModal"
-                            data-route="' . route('admin.attendances.create', $row->id) . '"
-                            data-title="QR Code ' . $row->class_subject_name . '">
-                                Tunjukkan QR
-                        </button>
-
-
+                    '
                     </div>
                 ';
             })
